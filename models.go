@@ -1327,3 +1327,52 @@ var _ bodyer = reqExternalContactAddCorpTagGroup{}
 func (x reqExternalContactAddCorpTagGroup) intoBody() ([]byte, error) {
 	return marshalIntoJSONBody(x.ExternalContactAddCorpTagGroup)
 }
+
+// reqGetKfServiceState 获取微信客服会话状态
+type reqGetKfServiceState struct {
+	OpenKFID       string `json:"open_kfid"`
+	ExternalUserID string `json:"external_userid"`
+}
+
+var _ bodyer = reqGetKfServiceState{}
+
+func (x reqGetKfServiceState) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respGetKfServiceState struct {
+	respCommon
+	ServiceState  int    `json:"service_state"`
+	ServiceUserID string `json:"servicer_userid"`
+}
+
+var _ bodyer = respGetKfServiceState{}
+
+func (x respGetKfServiceState) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+// reqTransKfServiceState 变更会话状态
+type reqTransKfServiceState struct {
+	OpenKFID       string `json:"open_kfid"`
+	ExternalUserID string `json:"external_userid"`
+	ServiceState   int    `json:"service_state"`
+	ServiceUserID  string `json:"servicer_userid"`
+}
+
+var _ bodyer = reqTransKfServiceState{}
+
+func (x reqTransKfServiceState) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respTransKfServiceState struct {
+	respCommon
+	MsgCode string `json:"msg_code"`
+}
+
+var _ bodyer = respGetKfServiceState{}
+
+func (x respTransKfServiceState) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}

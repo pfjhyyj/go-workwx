@@ -235,3 +235,12 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 :---|------------|-------------|------------|:--|:--
 `execAddMsgTemplate`|`reqAddMsgTemplateExternalContact`|`respAddMsgTemplateExternalContact`|+|`POST /cgi-bin/externalcontact/add_msg_template`|[创建企业群发](https://developer.work.weixin.qq.com/document/path/92135)
 `execSendWelcomeMsg`|`reqSendWelcomeMsgExternalContact`|`respSendWelcomeMsgExternalContact`|+|`POST /cgi-bin/externalcontact/send_welcome_msg`|[发送新客户欢迎语](https://developer.work.weixin.qq.com/document/path/92137)
+
+# 微信客服 - 分配客服会话
+
+## API calls
+Name| Request Type         | Response Type         |Access Token|URL|Doc
+:---|----------------------|-----------------------|------------|:--|:--
+`execGetKfServiceState`|`reqGetKfServiceState`|`respGetKfServiceState`|+|`POST /cgi-bin/kf/service_state/get`|[获取会话状态](https://developer.work.weixin.qq.com/document/path/94669)
+`execTransKfServiceState`|`reqTransKfServiceState`|`respTransKfServiceState`|+|`POST /cgi-bin/kf/service_state/trans`|[变更会话状态](https://developer.work.weixin.qq.com/document/path/94669)
+``

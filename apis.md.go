@@ -869,3 +869,31 @@ func (c *WorkwxApp) execSendWelcomeMsg(req reqSendWelcomeMsgExternalContact) (re
 
 	return resp, nil
 }
+
+// execGetKfServiceState 获取会话状态
+func (c *WorkwxApp) execGetKfServiceState(req reqGetKfServiceState) (respGetKfServiceState, error) {
+	var resp respGetKfServiceState
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/service_state/get", req, &resp, true)
+	if err != nil {
+		return respGetKfServiceState{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetKfServiceState{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execTransKfServiceState 变更会话状态
+func (c *WorkwxApp) execTransKfServiceState(req reqTransKfServiceState) (respTransKfServiceState, error) {
+	var resp respTransKfServiceState
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/service_state/trans", req, &resp, true)
+	if err != nil {
+		return respTransKfServiceState{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respTransKfServiceState{}, bizErr
+	}
+
+	return resp, nil
+}
