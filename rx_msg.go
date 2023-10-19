@@ -206,6 +206,18 @@ func (m *RxMessage) EventAppUnsubscribe() (*rxEventAppUnsubscribe, bool) {
 	return y, ok
 }
 
+// EventKfMsgOrEvent 如果消息为微信客服事件，则拿出相应消息参数，否则返回 nil, false
+func (m *RxMessage) EventKfMsgOrEvent() (*rxEventKfMsgOrEvent, bool) {
+	y, ok := m.extras.(*rxEventKfMsgOrEvent)
+	return y, ok
+}
+
+// EventKfAccountAuthChange 如果消息为微信客服帐号变更事件，则拿出相应消息参数，否则返回 nil, false
+func (m *RxMessage) EventKfAccountAuthChange() (*rxEventKfAccountAuthChange, bool) {
+	y, ok := m.extras.(*rxEventKfAccountAuthChange)
+	return y, ok
+}
+
 // EventUnknown  未定义的event类型
 func (m *RxMessage) EventUnknown() (*rxEventUnknown, bool) {
 	y, ok := m.extras.(*rxEventUnknown)
