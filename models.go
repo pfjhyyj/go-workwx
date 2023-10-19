@@ -1556,5 +1556,52 @@ type KfMsg struct {
 
 // reqSendKfMsg 发送客服消息
 type reqSendKfMsg struct {
-	ToUser string `json:"toUser"`
+	ToUser   string `json:"toUser"`
+	OpenKfId string `json:"open_kfid"`
+	MsgID    string `json:"msgid"`
+	MsgType  string `json:"msgtype"`
+	Content  map[string]interface{}
+}
+
+var _ bodyer = reqSendKfMsg{}
+
+func (x reqSendKfMsg) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respSendKfMsg struct {
+	respCommon
+	MsgID string `json:"msgid"`
+}
+
+// reqSendKfMsgOnEvent 发送欢迎语等事件响应消息
+type reqSendKfMsgOnEvent struct {
+	Code    string `json:"code"`
+	MsgID   string `json:"msgid"`
+	MsgType string `json:"msgtype"`
+	Content map[string]interface{}
+}
+
+var _ bodyer = reqSendKfMsgOnEvent{}
+
+func (x reqSendKfMsgOnEvent) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respSendKfMsgOnEvent struct {
+	respCommon
+	MsgID string `json:"msgid"`
+}
+
+// reqGetUpgradeServiceConfig 获取配置的专员与客户群
+type reqGetUpgradeServiceConfig struct{}
+
+var _ urlValuer = reqGetUpgradeServiceConfig{}
+
+func (x reqGetUpgradeServiceConfig) intoURLValues() url.Values {
+	return url.Values{}
+}
+
+type respGetUpgradeServiceConfig struct {
+	respCommon
 }
