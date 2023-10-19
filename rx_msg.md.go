@@ -118,6 +118,30 @@ const EventTypeAppSubscribe = "subscribe"
 // EventTypeAppUnsubscribe 应用订阅取消
 const EventTypeAppUnsubscribe = "unsubscribe"
 
+// EventTypeKfMsgOrEvent 微信客服消息或事件
+const EventTypeKfMsgOrEvent = "kf_msg_or_event"
+
+// EventTypeKfEnterSession 微信客服用户进入会话事件
+const EventTypeKfEnterSession = "enter_session"
+
+// EventTypeKfMsgSendFail 微信客服消息发送失败事件
+const EventTypeKfMsgSendFail = "msg_send_fail"
+
+// EventTypeKfServicerStatusChange 微信客服接待人员接待状态变更事件
+const EventTypeKfServicerStatusChange = "servicer_status_change"
+
+// EventTypeKfSessionStatusChange 微信客服会话状态变更事件
+const EventTypeKfSessionStatusChange = "session_status_change"
+
+// EventTypeKfUserRecallMsg 微信客服用户撤回消息事件
+const EventTypeKfUserRecallMsg = "user_recall_msg"
+
+// EventTypeKfServicerRecallMsg 微信客服接待人员撤回消息事件
+const EventTypeKfServicerRecallMsg = "servicer_recall_msg"
+
+// EventTypeKfRejectCustomerMsgSwitchChange 微信客服拒收客户消息变更事件
+const EventTypeKfRejectCustomerMsgSwitchChange = "reject_customer_msg_switch_change"
+
 // rxTextMessageSpecifics 接收的文本消息，特有字段
 type rxTextMessageSpecifics struct {
 	// Content 文本消息内容
@@ -364,6 +388,96 @@ type rxEventAppSubscribe struct {
 type rxEventAppUnsubscribe struct {
 	// EventKey 事件key
 	EventKey string `xml:"EventKey"`
+}
+
+// rxEventKfEnterSession 接受的事件消息，用户进入会话事件
+type rxEventKfEnterSession struct {
+	// OpenKFID 客服账号ID
+	OpenKFID string `xml:"OpenKfid"`
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `xml:"ExternalUserID"`
+	// Scene 进入会话的场景值
+	Scene string `xml:"Scene"`
+	// SceneParam 进入会话的自定义参数
+	SceneParam string `xml:"SceneParam"`
+	// WelcomeCode 如果满足发送欢迎语条件（条件为：用户在过去48小时里未收过欢迎语，且未向客服发过消息），会返回该字段
+	WelcomeCode string `xml:"WelcomeCode"`
+	// WechatChannels 进入会话的视频号信息，从视频号进入会话才有值
+	WechatChannels KfWechatChannel `xml:"WechatChannels"`
+}
+
+// rxEventKfMsgSendFail 接受的事件消息，消息发送失败事件
+type rxEventKfMsgSendFail struct {
+	// OpenKFID 客服账号ID
+	OpenKFID string `xml:"OpenKfid"`
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `xml:"ExternalUserID"`
+	// FailMsgID 发送失败的消息ID
+	FailMsgID string `xml:"FailMsgId"`
+	// FailType 失败类型。0-未知原因 1-客服账号已删除 2-应用已关闭 4-会话已过期，超过48小时 5-会话已关闭 6-超过5条限制 8-主体未验证 10-用户拒收 11-企业未有成员登录企业微信App（排查方法：企业至少一个成员通过手机号验证/微信授权登录企业微信App即可）12-发送的消息为客服组件禁发的消息类型
+	FailType uint32 `xml:"FailType"`
+}
+
+// rxEventKfServicerStatusChange 接受的事件消息，接待人员接待状态变更事件
+type rxEventKfServicerStatusChange struct {
+	// ServicerUserID 接待人员的userid
+	ServicerUserID string `xml:"ServicerUserID"`
+	// Status 状态类型。1-接待中 2-停止接待
+	Status uint32 `xml:"Status"`
+	// StopType 接待人员的状态为「停止接待」的子类型。0:停止接待,1:暂时挂起
+	StopType uint32 `xml:"StopType"`
+	// OpenKFID 客服账号ID
+	OpenKFID string `xml:"OpenKfid"`
+}
+
+// rxEventKfSessionStatusChange 接受的事件消息，会话状态变更事件
+type rxEventKfSessionStatusChange struct {
+	// OpenKFID 客服账号ID
+	OpenKFID string `xml:"OpenKfid"`
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `xml:"ExternalUserID"`
+	// ChangeType 变更类型，均为接待人员在企业微信客户端操作触发。1-从接待池接入会话 2-转接会话 3-结束会话 4-重新接入已结束/已转接会话
+	ChangeType uint32 `xml:"ChangeType"`
+	// OldServicerUserID 原接待人员的userid，仅change_type为2、3和4有值
+	OldServicerUserID string `xml:"OldServicerUserID"`
+	// NewServicerUserID 新接待人员的userid，仅change_type为1、2和4有值
+	NewServicerUserID string `xml:"NewServicerUserID"`
+	// MsgCode 用于发送事件响应消息的code，仅change_type为1和3时，会返回该字段。可用该msg_code调用发送事件响应消息接口给客户发送回复语或结束语。
+	MsgCode string `xml:"MsgCode"`
+}
+
+// rxEventKfUserRecallMsg 接受的事件消息，用户撤回消息事件
+type rxEventKfUserRecallMsg struct {
+	// OpenKFID 客服账号ID
+	OpenKFID string `xml:"OpenKfid"`
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `xml:"ExternalUserID"`
+	// RecallMsgID 撤回的消息ID
+	RecallMsgID string `xml:"RecallMsgId"`
+}
+
+// rxEventKfServicerRecallMsg 接受的事件消息，接待人员撤回消息事件
+type rxEventKfServicerRecallMsg struct {
+	// OpenKFID 客服账号ID
+	OpenKFID string `xml:"OpenKfid"`
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `xml:"ExternalUserID"`
+	// RecallMsgID 撤回的消息ID
+	RecallMsgID string `xml:"RecallMsgId"`
+	// ServicerUserID 接待人员的userid
+	ServicerUserID string `xml:"ServicerUserID"`
+}
+
+// rxEventKfRejectCustomerMsgSwitchChange 接受的事件消息，拒收客户消息变更事件
+type rxEventKfRejectCustomerMsgSwitchChange struct {
+	// OpenKFID 客服账号ID
+	OpenKFID string `xml:"OpenKfid"`
+	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
+	ExternalUserID string `xml:"ExternalUserID"`
+	// ServicerUserID 接待人员的userid
+	ServicerUserID string `xml:"ServicerUserID"`
+	// RejectSwitch 拒收客户消息，1表示接待人员拒收了客户消息，0表示接待人员取消拒收客户消息
+	RejectSwitch uint32 `xml:"RejectSwitch"`
 }
 
 // rxEventUnknown 接受的事件消息，未定义的事件类型
