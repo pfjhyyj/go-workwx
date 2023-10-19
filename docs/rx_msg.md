@@ -115,26 +115,29 @@ const EventTypeAppUnsubscribe = "unsubscribe"
 // EventTypeKfMsgOrEvent 微信客服消息或事件
 const EventTypeKfMsgOrEvent = "kf_msg_or_event"
 
-// EventTypeKfEnterSession 微信客服用户进入会话事件
-const EventTypeKfEnterSession = "enter_session"
+// KFType 微信客服事件类型
+type KFType string
 
-// EventTypeKfMsgSendFail 微信客服消息发送失败事件
-const EventTypeKfMsgSendFail = "msg_send_fail"
+// KFTypeEnterSession 微信客服用户进入会话事件
+const KFTypeEnterSession = "enter_session"
 
-// EventTypeKfServicerStatusChange 微信客服接待人员接待状态变更事件
-const EventTypeKfServicerStatusChange = "servicer_status_change"
+// KFTypeMsgSendFail 微信客服消息发送失败事件
+const KFTypeMsgSendFail = "msg_send_fail"
 
-// EventTypeKfSessionStatusChange 微信客服会话状态变更事件
-const EventTypeKfSessionStatusChange = "session_status_change"
+// KFTypeServicerStatusChange 微信客服接待人员接待状态变更事件
+const KFTypeServicerStatusChange = "servicer_status_change"
 
-// EventTypeKfUserRecallMsg 微信客服用户撤回消息事件
-const EventTypeKfUserRecallMsg = "user_recall_msg"
+// KFTypeSessionStatusChange 微信客服会话状态变更事件
+const KFTypeSessionStatusChange = "session_status_change"
 
-// EventTypeKfServicerRecallMsg 微信客服接待人员撤回消息事件
-const EventTypeKfServicerRecallMsg = "servicer_recall_msg"
+// KFTypeUserRecallMsg 微信客服用户撤回消息事件
+const KFTypeUserRecallMsg = "user_recall_msg"
 
-// EventTypeKfRejectCustomerMsgSwitchChange 微信客服拒收客户消息变更事件
-const EventTypeKfRejectCustomerMsgSwitchChange = "reject_customer_msg_switch_change"
+// KFTypeServicerRecallMsg 微信客服接待人员撤回消息事件
+const KFTypeServicerRecallMsg = "servicer_recall_msg"
+
+// KFTypeRejectCustomerMsgSwitchChange 微信客服拒收客户消息变更事件
+const KFTypeRejectCustomerMsgSwitchChange = "reject_customer_msg_switch_change"
 ```
 
 ### `rxTextMessageSpecifics` 接收的文本消息，特有字段
@@ -321,7 +324,7 @@ Name|XML|Type|Doc
 :---|:--|:---|:--
 `EventKey`|`EventKey`|`string`|事件key
 
-### `rxEventKfEnterSession` 接受的事件消息，用户进入会话事件
+### `rxKfEventEnterSession` 接受的事件消息，用户进入会话事件
 
 Name|XML|Type|Doc
 :---|:--|:---|:--
@@ -332,7 +335,7 @@ Name|XML|Type|Doc
 `WelcomeCode`|`WelcomeCode`|`string`|如果满足发送欢迎语条件（条件为：用户在过去48小时里未收过欢迎语，且未向客服发过消息），会返回该字段
 `WechatChannels`|`WechatChannels`|`KfWechatChannel`|进入会话的视频号信息，从视频号进入会话才有值
 
-### `rxEventKfMsgSendFail` 接受的事件消息，消息发送失败事件
+### `rxKfEventMsgSendFail` 接受的事件消息，消息发送失败事件
 
 Name|XML|Type|Doc
 :---|:--|:---|:--
@@ -341,7 +344,7 @@ Name|XML|Type|Doc
 `FailMsgID`|`FailMsgId`|`string`|发送失败的消息ID
 `FailType`|`FailType`|`uint32`|失败类型。0-未知原因 1-客服账号已删除 2-应用已关闭 4-会话已过期，超过48小时 5-会话已关闭 6-超过5条限制 8-主体未验证 10-用户拒收 11-企业未有成员登录企业微信App（排查方法：企业至少一个成员通过手机号验证/微信授权登录企业微信App即可）12-发送的消息为客服组件禁发的消息类型
 
-### `rxEventKfServicerStatusChange` 接受的事件消息，接待人员接待状态变更事件
+### `rxKfEventServicerStatusChange` 接受的事件消息，接待人员接待状态变更事件
 
 Name|XML|Type|Doc
 :---|:--|:---|:--
@@ -350,7 +353,7 @@ Name|XML|Type|Doc
 `StopType`|`StopType`|`uint32`|接待人员的状态为「停止接待」的子类型。0:停止接待,1:暂时挂起
 `OpenKFID`|`OpenKfid`|`string`|客服账号ID
 
-### `rxEventKfSessionStatusChange` 接受的事件消息，会话状态变更事件
+### `rxKfEventSessionStatusChange` 接受的事件消息，会话状态变更事件
 
 Name|XML|Type|Doc
 :---|:--|:---|:--
@@ -361,7 +364,7 @@ Name|XML|Type|Doc
 `NewServicerUserID`|`NewServicerUserID`|`string`|新接待人员的userid，仅change_type为1、2和4有值
 `MsgCode`|`MsgCode`|`string`|用于发送事件响应消息的code，仅change_type为1和3时，会返回该字段。可用该msg_code调用发送事件响应消息接口给客户发送回复语或结束语。
 
-### `rxEventKfUserRecallMsg` 接受的事件消息，用户撤回消息事件
+### `rxKfEventUserRecallMsg` 接受的事件消息，用户撤回消息事件
 
 Name|XML|Type|Doc
 :---|:--|:---|:--
@@ -369,7 +372,7 @@ Name|XML|Type|Doc
 `ExternalUserID`|`ExternalUserID`|`string`|外部联系人的userid，注意不是企业成员的帐号
 `RecallMsgID`|`RecallMsgId`|`string`|撤回的消息ID
 
-### `rxEventKfServicerRecallMsg` 接受的事件消息，接待人员撤回消息事件
+### `rxKfEventServicerRecallMsg` 接受的事件消息，接待人员撤回消息事件
 
 Name|XML|Type|Doc
 :---|:--|:---|:--
@@ -378,7 +381,7 @@ Name|XML|Type|Doc
 `RecallMsgID`|`RecallMsgId`|`string`|撤回的消息ID
 `ServicerUserID`|`ServicerUserID`|`string`|接待人员的userid
 
-### `rxEventKfRejectCustomerMsgSwitchChange` 接受的事件消息，拒收客户消息变更事件
+### `rxKfEventRejectCustomerMsgSwitchChange` 接受的事件消息，拒收客户消息变更事件
 
 Name|XML|Type|Doc
 :---|:--|:---|:--

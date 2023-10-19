@@ -121,26 +121,29 @@ const EventTypeAppUnsubscribe = "unsubscribe"
 // EventTypeKfMsgOrEvent 微信客服消息或事件
 const EventTypeKfMsgOrEvent = "kf_msg_or_event"
 
-// EventTypeKfEnterSession 微信客服用户进入会话事件
-const EventTypeKfEnterSession = "enter_session"
+// KFType 微信客服事件类型
+type KFType string
 
-// EventTypeKfMsgSendFail 微信客服消息发送失败事件
-const EventTypeKfMsgSendFail = "msg_send_fail"
+// KFTypeEnterSession 微信客服用户进入会话事件
+const KFTypeEnterSession = "enter_session"
 
-// EventTypeKfServicerStatusChange 微信客服接待人员接待状态变更事件
-const EventTypeKfServicerStatusChange = "servicer_status_change"
+// KFTypeMsgSendFail 微信客服消息发送失败事件
+const KFTypeMsgSendFail = "msg_send_fail"
 
-// EventTypeKfSessionStatusChange 微信客服会话状态变更事件
-const EventTypeKfSessionStatusChange = "session_status_change"
+// KFTypeServicerStatusChange 微信客服接待人员接待状态变更事件
+const KFTypeServicerStatusChange = "servicer_status_change"
 
-// EventTypeKfUserRecallMsg 微信客服用户撤回消息事件
-const EventTypeKfUserRecallMsg = "user_recall_msg"
+// KFTypeSessionStatusChange 微信客服会话状态变更事件
+const KFTypeSessionStatusChange = "session_status_change"
 
-// EventTypeKfServicerRecallMsg 微信客服接待人员撤回消息事件
-const EventTypeKfServicerRecallMsg = "servicer_recall_msg"
+// KFTypeUserRecallMsg 微信客服用户撤回消息事件
+const KFTypeUserRecallMsg = "user_recall_msg"
 
-// EventTypeKfRejectCustomerMsgSwitchChange 微信客服拒收客户消息变更事件
-const EventTypeKfRejectCustomerMsgSwitchChange = "reject_customer_msg_switch_change"
+// KFTypeServicerRecallMsg 微信客服接待人员撤回消息事件
+const KFTypeServicerRecallMsg = "servicer_recall_msg"
+
+// KFTypeRejectCustomerMsgSwitchChange 微信客服拒收客户消息变更事件
+const KFTypeRejectCustomerMsgSwitchChange = "reject_customer_msg_switch_change"
 
 // rxTextMessageSpecifics 接收的文本消息，特有字段
 type rxTextMessageSpecifics struct {
@@ -390,8 +393,8 @@ type rxEventAppUnsubscribe struct {
 	EventKey string `xml:"EventKey"`
 }
 
-// rxEventKfEnterSession 接受的事件消息，用户进入会话事件
-type rxEventKfEnterSession struct {
+// rxKfEventEnterSession 接受的事件消息，用户进入会话事件
+type rxKfEventEnterSession struct {
 	// OpenKFID 客服账号ID
 	OpenKFID string `xml:"OpenKfid"`
 	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
@@ -406,8 +409,8 @@ type rxEventKfEnterSession struct {
 	WechatChannels KfWechatChannel `xml:"WechatChannels"`
 }
 
-// rxEventKfMsgSendFail 接受的事件消息，消息发送失败事件
-type rxEventKfMsgSendFail struct {
+// rxKfEventMsgSendFail 接受的事件消息，消息发送失败事件
+type rxKfEventMsgSendFail struct {
 	// OpenKFID 客服账号ID
 	OpenKFID string `xml:"OpenKfid"`
 	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
@@ -418,8 +421,8 @@ type rxEventKfMsgSendFail struct {
 	FailType uint32 `xml:"FailType"`
 }
 
-// rxEventKfServicerStatusChange 接受的事件消息，接待人员接待状态变更事件
-type rxEventKfServicerStatusChange struct {
+// rxKfEventServicerStatusChange 接受的事件消息，接待人员接待状态变更事件
+type rxKfEventServicerStatusChange struct {
 	// ServicerUserID 接待人员的userid
 	ServicerUserID string `xml:"ServicerUserID"`
 	// Status 状态类型。1-接待中 2-停止接待
@@ -430,8 +433,8 @@ type rxEventKfServicerStatusChange struct {
 	OpenKFID string `xml:"OpenKfid"`
 }
 
-// rxEventKfSessionStatusChange 接受的事件消息，会话状态变更事件
-type rxEventKfSessionStatusChange struct {
+// rxKfEventSessionStatusChange 接受的事件消息，会话状态变更事件
+type rxKfEventSessionStatusChange struct {
 	// OpenKFID 客服账号ID
 	OpenKFID string `xml:"OpenKfid"`
 	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
@@ -446,8 +449,8 @@ type rxEventKfSessionStatusChange struct {
 	MsgCode string `xml:"MsgCode"`
 }
 
-// rxEventKfUserRecallMsg 接受的事件消息，用户撤回消息事件
-type rxEventKfUserRecallMsg struct {
+// rxKfEventUserRecallMsg 接受的事件消息，用户撤回消息事件
+type rxKfEventUserRecallMsg struct {
 	// OpenKFID 客服账号ID
 	OpenKFID string `xml:"OpenKfid"`
 	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
@@ -456,8 +459,8 @@ type rxEventKfUserRecallMsg struct {
 	RecallMsgID string `xml:"RecallMsgId"`
 }
 
-// rxEventKfServicerRecallMsg 接受的事件消息，接待人员撤回消息事件
-type rxEventKfServicerRecallMsg struct {
+// rxKfEventServicerRecallMsg 接受的事件消息，接待人员撤回消息事件
+type rxKfEventServicerRecallMsg struct {
 	// OpenKFID 客服账号ID
 	OpenKFID string `xml:"OpenKfid"`
 	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
@@ -468,8 +471,8 @@ type rxEventKfServicerRecallMsg struct {
 	ServicerUserID string `xml:"ServicerUserID"`
 }
 
-// rxEventKfRejectCustomerMsgSwitchChange 接受的事件消息，拒收客户消息变更事件
-type rxEventKfRejectCustomerMsgSwitchChange struct {
+// rxKfEventRejectCustomerMsgSwitchChange 接受的事件消息，拒收客户消息变更事件
+type rxKfEventRejectCustomerMsgSwitchChange struct {
 	// OpenKFID 客服账号ID
 	OpenKFID string `xml:"OpenKfid"`
 	// ExternalUserID 外部联系人的userid，注意不是企业成员的帐号
