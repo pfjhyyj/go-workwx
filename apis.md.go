@@ -870,6 +870,118 @@ func (c *WorkwxApp) execSendWelcomeMsg(req reqSendWelcomeMsgExternalContact) (re
 	return resp, nil
 }
 
+// execAddKfAccount 添加客服帐号
+func (c *WorkwxApp) execAddKfAccount(req reqAddKfAccount) (respAddKfAccount, error) {
+	var resp respAddKfAccount
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/account/add", req, &resp, true)
+	if err != nil {
+		return respAddKfAccount{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddKfAccount{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execUpdateKfAccount 修改客服帐号
+func (c *WorkwxApp) execUpdateKfAccount(req reqUpdateKfAccount) (respUpdateKfAccount, error) {
+	var resp respUpdateKfAccount
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/account/update", req, &resp, true)
+	if err != nil {
+		return respUpdateKfAccount{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUpdateKfAccount{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execDelKfAccount 删除客服帐号
+func (c *WorkwxApp) execDelKfAccount(req reqDelKfAccount) (respDelKfAccount, error) {
+	var resp respDelKfAccount
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/account/del", req, &resp, true)
+	if err != nil {
+		return respDelKfAccount{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respDelKfAccount{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execListKfAccount 获取客服帐号列表
+func (c *WorkwxApp) execListKfAccount(req reqListKfAccount) (respListKfAccount, error) {
+	var resp respListKfAccount
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/account/list", req, &resp, true)
+	if err != nil {
+		return respListKfAccount{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respListKfAccount{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execAddKfContactWay 获取客服账号链接
+func (c *WorkwxApp) execAddKfContactWay(req reqAddKfContactWay) (respAddKfContactWay, error) {
+	var resp respAddKfContactWay
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/add_contact_way", req, &resp, true)
+	if err != nil {
+		return respAddKfContactWay{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddKfContactWay{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execAddServicer 添加接待人员
+func (c *WorkwxApp) execAddServicer(req reqAddServicer) (respAddServicer, error) {
+	var resp respAddServicer
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/servicer/add", req, &resp, true)
+	if err != nil {
+		return respAddServicer{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddServicer{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execDelServicer 删除接待人员
+func (c *WorkwxApp) execDelServicer(req reqDelServicer) (respDelServicer, error) {
+	var resp respDelServicer
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/servicer/del", req, &resp, true)
+	if err != nil {
+		return respDelServicer{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respDelServicer{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execListServicer 获取接待人员列表
+func (c *WorkwxApp) execListServicer(req reqListServicer) (respListServicer, error) {
+	var resp respListServicer
+	err := c.executeQyapiGet("/cgi-bin/kf/servicer/list", req, &resp, true)
+	if err != nil {
+		return respListServicer{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respListServicer{}, bizErr
+	}
+
+	return resp, nil
+}
+
 // execGetKfServiceState 获取会话状态
 func (c *WorkwxApp) execGetKfServiceState(req reqGetKfServiceState) (respGetKfServiceState, error) {
 	var resp respGetKfServiceState
@@ -893,6 +1005,244 @@ func (c *WorkwxApp) execTransKfServiceState(req reqTransKfServiceState) (respTra
 	}
 	if bizErr := resp.TryIntoErr(); bizErr != nil {
 		return respTransKfServiceState{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execSyncKfMsg 读取消息
+func (c *WorkwxApp) execSyncKfMsg(req reqSyncKfMsg) (respSyncKfMsg, error) {
+	var resp respSyncKfMsg
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/sync_msg", req, &resp, true)
+	if err != nil {
+		return respSyncKfMsg{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respSyncKfMsg{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execSendKfMsg 发送消息
+func (c *WorkwxApp) execSendKfMsg(req reqSendKfMsg) (respSendKfMsg, error) {
+	var resp respSendKfMsg
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/send_msg", req, &resp, true)
+	if err != nil {
+		return respSendKfMsg{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respSendKfMsg{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execSendKfMsgOnEvent 发送欢迎语等事件响应消息
+func (c *WorkwxApp) execSendKfMsgOnEvent(req reqSendKfMsgOnEvent) (respSendKfMsgOnEvent, error) {
+	var resp respSendKfMsgOnEvent
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/send_msg_on_event", req, &resp, true)
+	if err != nil {
+		return respSendKfMsgOnEvent{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respSendKfMsgOnEvent{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetUpgradeServiceConfig 获取配置的专员与客户群
+func (c *WorkwxApp) execGetUpgradeServiceConfig(req reqGetUpgradeServiceConfig) (respGetUpgradeServiceConfig, error) {
+	var resp respGetUpgradeServiceConfig
+	err := c.executeQyapiGet("/cgi-bin/kf/customer/get_upgrade_service_config", req, &resp, true)
+	if err != nil {
+		return respGetUpgradeServiceConfig{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetUpgradeServiceConfig{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execUpgradeService 为客户升级为专员或客户群服务
+func (c *WorkwxApp) execUpgradeService(req reqUpgradeService) (respUpgradeService, error) {
+	var resp respUpgradeService
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/customer/upgrade_service", req, &resp, true)
+	if err != nil {
+		return respUpgradeService{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respUpgradeService{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execCancelUpgradeService 为客户取消推荐
+func (c *WorkwxApp) execCancelUpgradeService(req reqCancelUpgradeService) (respCancelUpgradeService, error) {
+	var resp respCancelUpgradeService
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/customer/cancel_upgrade_service", req, &resp, true)
+	if err != nil {
+		return respCancelUpgradeService{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respCancelUpgradeService{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execBatchGetCustomer 获取客户列表
+func (c *WorkwxApp) execBatchGetCustomer(req reqBatchGetCustomer) (respBatchGetCustomer, error) {
+	var resp respBatchGetCustomer
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/customer/batchget", req, &resp, true)
+	if err != nil {
+		return respBatchGetCustomer{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respBatchGetCustomer{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetCorpStatistic 获取「客户数据统计」企业汇总数据
+func (c *WorkwxApp) execGetCorpStatistic(req reqGetCorpStatistic) (respGetCorpStatistic, error) {
+	var resp respGetCorpStatistic
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/get_corp_statistic", req, &resp, true)
+	if err != nil {
+		return respGetCorpStatistic{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetCorpStatistic{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetServicerStatistic 获取「客户数据统计」接待人员明细数据
+func (c *WorkwxApp) execGetServicerStatistic(req reqGetServicerStatistic) (respGetServicerStatistic, error) {
+	var resp respGetServicerStatistic
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/get_servicer_statistic", req, &resp, true)
+	if err != nil {
+		return respGetServicerStatistic{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetServicerStatistic{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execAddKnowledgeGroup 添加分组
+func (c *WorkwxApp) execAddKnowledgeGroup(req reqAddKnowledgeGroup) (respAddKnowledgeGroup, error) {
+	var resp respAddKnowledgeGroup
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/knowledge/add_group", req, &resp, true)
+	if err != nil {
+		return respAddKnowledgeGroup{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddKnowledgeGroup{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execDelKnowledgeGroup 删除分组
+func (c *WorkwxApp) execDelKnowledgeGroup(req reqDelKnowledgeGroup) (respDelKnowledgeGroup, error) {
+	var resp respDelKnowledgeGroup
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/knowledge/del_group", req, &resp, true)
+	if err != nil {
+		return respDelKnowledgeGroup{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respDelKnowledgeGroup{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execModKnowledgeGroup 修改分组
+func (c *WorkwxApp) execModKnowledgeGroup(req reqModKnowledgeGroup) (respModKnowledgeGroup, error) {
+	var resp respModKnowledgeGroup
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/knowledge/mod_group", req, &resp, true)
+	if err != nil {
+		return respModKnowledgeGroup{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respModKnowledgeGroup{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetKnowledgeGroupList 获取分组列表
+func (c *WorkwxApp) execGetKnowledgeGroupList(req reqGetKnowledgeGroupList) (respGetKnowledgeGroupList, error) {
+	var resp respGetKnowledgeGroupList
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/knowledge/list_group", req, &resp, true)
+	if err != nil {
+		return respGetKnowledgeGroupList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetKnowledgeGroupList{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execAddKnowledgeIntent 添加问答
+func (c *WorkwxApp) execAddKnowledgeIntent(req reqAddKnowledgeIntent) (respAddKnowledgeIntent, error) {
+	var resp respAddKnowledgeIntent
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/knowledge/add_intent", req, &resp, true)
+	if err != nil {
+		return respAddKnowledgeIntent{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respAddKnowledgeIntent{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execDelKnowledgeIntent 删除问答
+func (c *WorkwxApp) execDelKnowledgeIntent(req reqDelKnowledgeIntent) (respDelKnowledgeIntent, error) {
+	var resp respDelKnowledgeIntent
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/knowledge/del_intent", req, &resp, true)
+	if err != nil {
+		return respDelKnowledgeIntent{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respDelKnowledgeIntent{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execModKnowledgeIntent 修改问答
+func (c *WorkwxApp) execModKnowledgeIntent(req reqModKnowledgeIntent) (respModKnowledgeIntent, error) {
+	var resp respModKnowledgeIntent
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/knowledge/mod_intent", req, &resp, true)
+	if err != nil {
+		return respModKnowledgeIntent{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respModKnowledgeIntent{}, bizErr
+	}
+
+	return resp, nil
+}
+
+// execGetKnowledgeIntentList 获取问答列表
+func (c *WorkwxApp) execGetKnowledgeIntentList(req reqGetKnowledgeIntentList) (respGetKnowledgeIntentList, error) {
+	var resp respGetKnowledgeIntentList
+	err := c.executeQyapiJSONPost("/cgi-bin/kf/knowledge/list_intent", req, &resp, true)
+	if err != nil {
+		return respGetKnowledgeIntentList{}, err
+	}
+	if bizErr := resp.TryIntoErr(); bizErr != nil {
+		return respGetKnowledgeIntentList{}, bizErr
 	}
 
 	return resp, nil

@@ -1328,9 +1328,166 @@ func (x reqExternalContactAddCorpTagGroup) intoBody() ([]byte, error) {
 	return marshalIntoJSONBody(x.ExternalContactAddCorpTagGroup)
 }
 
+// reqAddKfAccount 添加客服账号
+type reqAddKfAccount struct {
+	Name    string `json:"name"`
+	MediaID string `json:"media_id"`
+}
+
+var _ bodyer = reqAddKfAccount{}
+
+func (x reqAddKfAccount) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respAddKfAccount struct {
+	respCommon
+	OpenKfId string `json:"open_kfid"`
+}
+
+// reqDeleteKfAccount 删除客服账号
+type reqDelKfAccount struct {
+	OpenKfId string `json:"open_kfid"`
+}
+
+var _ bodyer = reqDelKfAccount{}
+
+func (x reqDelKfAccount) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respDelKfAccount struct {
+	respCommon
+}
+
+// reqUpdateKfAccount 修改客服账号
+type reqUpdateKfAccount struct {
+	OpenKfId string `json:"open_kfid"`
+	Name     string `json:"name"`
+	MediaID  string `json:"media_id"`
+}
+
+var _ bodyer = reqUpdateKfAccount{}
+
+func (x reqUpdateKfAccount) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respUpdateKfAccount struct {
+	respCommon
+}
+
+// reqListKfAccount 获取客服列表
+type reqListKfAccount struct {
+	Offset uint32 `json:"offset"`
+	Limit  uint32 `json:"limit"`
+}
+
+var _ bodyer = reqListKfAccount{}
+
+func (x reqListKfAccount) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respListKfAccount struct {
+	respCommon
+	AccountList []KfAccount `json:"account_list"`
+}
+
+type KfAccount struct {
+	OpenKfId        string `json:"open_kfid"`
+	Name            string `json:"name"`
+	Avatar          string `json:"avatar"`
+	ManagePrivilege bool   `json:"manage_privilege"`
+}
+
+// reqAddKfContactWay 获取客服账号链接息
+type reqAddKfContactWay struct {
+	OpenKfId string `json:"open_kfid"`
+	Scene    string `json:"scene"`
+}
+
+var _ bodyer = reqAddKfContactWay{}
+
+func (x reqAddKfContactWay) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respAddKfContactWay struct {
+	respCommon
+	Url string `json:"url"`
+}
+
+// reqAddServicer 添加接待人员
+type reqAddServicer struct {
+	OpenKfId         string   `json:"open_kfid"`
+	UserIdList       []string `json:"user_id_list"`
+	DepartmentIdList []uint   `json:"department_id_list"`
+}
+
+var _ bodyer = reqAddServicer{}
+
+func (x reqAddServicer) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respAddServicer struct {
+	respCommon
+	ResultList []KfAccountResult `json:"result_list"`
+}
+
+type KfAccountResult struct {
+	UserId       string `json:"userid"`
+	DepartmentId uint   `json:"department_id"`
+	respCommon
+}
+
+// reqDelServicer 删除接待人员
+type reqDelServicer struct {
+	OpenKfId         string   `json:"open_kfid"`
+	UserIdList       []string `json:"userid_list"`
+	DepartmentIdList []uint   `json:"department_id_list"`
+}
+
+var _ bodyer = reqDelServicer{}
+
+func (x reqDelServicer) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respDelServicer struct {
+	respCommon
+	ResultList []KfAccountResult `json:"result_list"`
+}
+
+// reqListServicer 获取接待人员列表
+type reqListServicer struct {
+	OpenKfId string `json:"open_kfid"`
+}
+
+var _ urlValuer = reqListServicer{}
+
+func (x reqListServicer) intoURLValues() url.Values {
+	return url.Values{
+		"open_kfid": {x.OpenKfId},
+	}
+}
+
+type respListServicer struct {
+	respCommon
+	ServicerList []KfServicer `json:"servicer_list"`
+}
+
+type KfServicer struct {
+	UserId       string `json:"userid"`
+	DepartmentId uint   `json:"department_id"`
+	Status       uint   `json:"status"`
+	StopType     uint   `json:"stopType"`
+}
+
 // reqGetKfServiceState 获取微信客服会话状态
 type reqGetKfServiceState struct {
-	OpenKFID       string `json:"open_kfid"`
+	OpenKfId       string `json:"open_kfid"`
 	ExternalUserID string `json:"external_userid"`
 }
 
@@ -1346,15 +1503,9 @@ type respGetKfServiceState struct {
 	ServiceUserID string `json:"servicer_userid"`
 }
 
-var _ bodyer = respGetKfServiceState{}
-
-func (x respGetKfServiceState) intoBody() ([]byte, error) {
-	return marshalIntoJSONBody(x)
-}
-
 // reqTransKfServiceState 变更会话状态
 type reqTransKfServiceState struct {
-	OpenKFID       string `json:"open_kfid"`
+	OpenKfId       string `json:"open_kfid"`
 	ExternalUserID string `json:"external_userid"`
 	ServiceState   int    `json:"service_state"`
 	ServiceUserID  string `json:"servicer_userid"`
@@ -1371,8 +1522,39 @@ type respTransKfServiceState struct {
 	MsgCode string `json:"msg_code"`
 }
 
-var _ bodyer = respGetKfServiceState{}
+// reqSyncKfMsg 读取消息
+type reqSyncKfMsg struct {
+	Cursor      string `json:"cursor"`
+	Token       string `json:"token"`
+	Limit       uint32 `json:"limit"`
+	VoiceFormat uint32 `json:"voice_format"`
+	OpenKfId    string `json:"open_kfid"`
+}
 
-func (x respTransKfServiceState) intoBody() ([]byte, error) {
+var _ bodyer = reqSyncKfMsg{}
+
+func (x reqSyncKfMsg) intoBody() ([]byte, error) {
 	return marshalIntoJSONBody(x)
+}
+
+type respSyncKfMsg struct {
+	respCommon
+	NextCursor string  `json:"next_cursor"`
+	HasMore    uint32  `json:"has_more"`
+	MsgList    []KfMsg `json:"msg_list"`
+}
+
+type KfMsg struct {
+	MsgID          string `json:"msgid"`
+	OpenKfId       string `json:"open_kfid"`
+	ExternalUserId string `json:"external_userid"`
+	SendTime       uint64 `json:"send_time"`
+	Origin         uint32 `json:"origin"`
+	ServicerUserId string `json:"servicer_userid"`
+	MsgType        uint32 `json:"msgtype"`
+}
+
+// reqSendKfMsg 发送客服消息
+type reqSendKfMsg struct {
+	ToUser string `json:"toUser"`
 }

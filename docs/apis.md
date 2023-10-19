@@ -236,11 +236,71 @@ Name|Request Type|Response Type|Access Token|URL|Doc
 `execAddMsgTemplate`|`reqAddMsgTemplateExternalContact`|`respAddMsgTemplateExternalContact`|+|`POST /cgi-bin/externalcontact/add_msg_template`|[创建企业群发](https://developer.work.weixin.qq.com/document/path/92135)
 `execSendWelcomeMsg`|`reqSendWelcomeMsgExternalContact`|`respSendWelcomeMsgExternalContact`|+|`POST /cgi-bin/externalcontact/send_welcome_msg`|[发送新客户欢迎语](https://developer.work.weixin.qq.com/document/path/92137)
 
-# 微信客服 - 分配客服会话
+# 微信客服 - 客服账号管理
 
 ## API calls
-Name| Request Type         | Response Type         |Access Token|URL|Doc
-:---|----------------------|-----------------------|------------|:--|:--
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execAddKfAccount`|`reqAddKfAccount`|`respAddKfAccount`|+| `POST /cgi-bin/kf/account/add`    |[添加客服帐号](https://developer.work.weixin.qq.com/document/path/94662)
+`execUpdateKfAccount`|`reqUpdateKfAccount`|`respUpdateKfAccount`|+| `POST /cgi-bin/kf/account/update` |[修改客服帐号](https://developer.work.weixin.qq.com/document/path/94664)
+`execDelKfAccount`|`reqDelKfAccount`|`respDelKfAccount`|+| `POST /cgi-bin/kf/account/del`    |[删除客服帐号](https://developer.work.weixin.qq.com/document/path/94663)
+`execListKfAccount`|`reqListKfAccount`|`respListKfAccount`|+| `POST /cgi-bin/kf/account/list`   |[获取客服帐号列表](https://developer.work.weixin.qq.com/document/path/94661)
+`execAddKfContactWay`|`reqAddKfContactWay`|`respAddKfContactWay`|+| `POST /cgi-bin/kf/add_contact_way`|[获取客服账号链接](https://developer.work.weixin.qq.com/document/path/94665)
+
+# 微信客服 - 接待人员管理
+
+## API calls
+Name|Request Type|Response Type|Access Token| URL                             |Doc
+:---|------------|-------------|------------|:--------------------------------|:--
+`execAddServicer`|`reqAddServicer`|`respAddServicer`|+| `POST /cgi-bin/kf/servicer/add` |[添加接待人员](https://developer.work.weixin.qq.com/document/path/94646)
+`execDelServicer`|`reqDelServicer`|`respDelServicer`|+| `POST /cgi-bin/kf/servicer/del` |[删除接待人员](https://developer.work.weixin.qq.com/document/path/94647)
+`execListServicer`|`reqListServicer`|`respListServicer`|+| `GET /cgi-bin/kf/servicer/list` |[获取接待人员列表](https://developer.work.weixin.qq.com/document/path/94645)
+
+# 微信客服 - 会话分配与消息收发
+
+## API calls
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
 `execGetKfServiceState`|`reqGetKfServiceState`|`respGetKfServiceState`|+|`POST /cgi-bin/kf/service_state/get`|[获取会话状态](https://developer.work.weixin.qq.com/document/path/94669)
 `execTransKfServiceState`|`reqTransKfServiceState`|`respTransKfServiceState`|+|`POST /cgi-bin/kf/service_state/trans`|[变更会话状态](https://developer.work.weixin.qq.com/document/path/94669)
-``
+`execSyncKfMsg`|`reqSyncKfMsg`|`respSyncKfMsg`|+|`POST /cgi-bin/kf/sync_msg`|[读取消息](https://developer.work.weixin.qq.com/document/path/94670)
+`execSendKfMsg`|`reqSendKfMsg`|`respSendKfMsg`|+|`POST /cgi-bin/kf/send_msg`|[发送消息](https://developer.work.weixin.qq.com/document/path/94677)
+`execSendKfMsgOnEvent`|`reqSendKfMsgOnEvent`|`respSendKfMsgOnEvent`|+|`POST /cgi-bin/kf/send_msg_on_event`|[发送欢迎语等事件响应消息](https://developer.work.weixin.qq.com/document/path/95122)
+
+# 微信客服 - 升级服务配置
+
+## API calls
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execGetUpgradeServiceConfig`|`reqGetUpgradeServiceConfig`|`respGetUpgradeServiceConfig`|+| `GET /cgi-bin/kf/customer/get_upgrade_service_config` |[获取配置的专员与客户群](https://developer.work.weixin.qq.com/document/path/94674)
+`execUpgradeService`|`reqUpgradeService`|`respUpgradeService`|+| `POST /cgi-bin/kf/customer/upgrade_service` |[为客户升级为专员或客户群服务](https://developer.work.weixin.qq.com/document/path/94674)
+`execCancelUpgradeService`|`reqCancelUpgradeService`|`respCancelUpgradeService`|+| `POST /cgi-bin/kf/customer/cancel_upgrade_service` |[为客户取消推荐](https://developer.work.weixin.qq.com/document/path/94674)
+
+# 微信客服 - 其他基础信息获取
+
+## API calls
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execBatchGetCustomer`|`reqBatchGetCustomer`|`respBatchGetCustomer`|+| `POST /cgi-bin/kf/customer/batchget` |[获取客户列表](https://developer.work.weixin.qq.com/document/path/95159)
+
+# 微信客服 - 统计管理
+
+## API calls
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execGetCorpStatistic`|`reqGetCorpStatistic`|`respGetCorpStatistic`|+| `POST /cgi-bin/kf/get_corp_statistic` |[获取「客户数据统计」企业汇总数据](https://developer.work.weixin.qq.com/document/path/95489)
+`execGetServicerStatistic`|`reqGetServicerStatistic`|`respGetServicerStatistic`|+| `POST /cgi-bin/kf/get_servicer_statistic` |[获取「客户数据统计」接待人员明细数据](https://developer.work.weixin.qq.com/document/path/95490)
+
+# 微信客服 - 机器人管理
+
+## API calls
+Name|Request Type|Response Type|Access Token|URL|Doc
+:---|------------|-------------|------------|:--|:--
+`execAddKnowledgeGroup`|`reqAddKnowledgeGroup`|`respAddKnowledgeGroup`|+| `POST /cgi-bin/kf/knowledge/add_group`|[添加分组](https://developer.work.weixin.qq.com/document/path/95971)
+`execDelKnowledgeGroup`|`reqDelKnowledgeGroup`|`respDelKnowledgeGroup`|+| `POST /cgi-bin/kf/knowledge/del_group`|[删除分组](https://developer.work.weixin.qq.com/document/path/95971)
+`execModKnowledgeGroup`|`reqModKnowledgeGroup`|`respModKnowledgeGroup`|+| `POST /cgi-bin/kf/knowledge/mod_group`|[修改分组](https://developer.work.weixin.qq.com/document/path/95971)
+`execGetKnowledgeGroupList`|`reqGetKnowledgeGroupList`|`respGetKnowledgeGroupList`|+| `POST /cgi-bin/kf/knowledge/list_group`|[获取分组列表](https://developer.work.weixin.qq.com/document/path/95971)
+`execAddKnowledgeIntent`|`reqAddKnowledgeIntent`|`respAddKnowledgeIntent`|+| `POST /cgi-bin/kf/knowledge/add_intent`|[添加问答](https://developer.work.weixin.qq.com/document/path/95972)
+`execDelKnowledgeIntent`|`reqDelKnowledgeIntent`|`respDelKnowledgeIntent`|+| `POST /cgi-bin/kf/knowledge/del_intent`|[删除问答](https://developer.work.weixin.qq.com/document/path/95972)
+`execModKnowledgeIntent`|`reqModKnowledgeIntent`|`respModKnowledgeIntent`|+| `POST /cgi-bin/kf/knowledge/mod_intent`|[修改问答](https://developer.work.weixin.qq.com/document/path/95972)
+`execGetKnowledgeIntentList`|`reqGetKnowledgeIntentList`|`respGetKnowledgeIntentList`|+| `POST /cgi-bin/kf/knowledge/list_intent`|[获取问答列表](https://developer.work.weixin.qq.com/document/path/95972)
