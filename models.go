@@ -1605,3 +1605,361 @@ func (x reqGetUpgradeServiceConfig) intoURLValues() url.Values {
 type respGetUpgradeServiceConfig struct {
 	respCommon
 }
+
+// reqUpgradeService 为客户升级为专员或客户群服务
+type reqUpgradeService struct {
+	OpenKfId       string             `json:"open_kfid"`
+	ExternalUserId string             `json:"external_userid"`
+	Type           uint32             `json:"type"`
+	Member         KfUpgradeMember    `json:"member"`
+	GroupChat      KfUpgradeGroupChat `json:"groupchat"`
+}
+
+type KfUpgradeMember struct {
+	UserId  string `json:"userid"`
+	Wording string `json:"wording"`
+}
+
+type KfUpgradeGroupChat struct {
+	ChatId  string `json:"chat_id"`
+	Wording string `json:"wording"`
+}
+
+var _ bodyer = reqUpgradeService{}
+
+func (x reqUpgradeService) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respUpgradeService struct {
+	respCommon
+}
+
+// reqCancelUpgradeService 为客户取消推荐
+type reqCancelUpgradeService struct {
+	OpenKfId       string `json:"open_kfid"`
+	ExternalUserId string `json:"external_userid"`
+}
+
+var _ bodyer = reqCancelUpgradeService{}
+
+func (x reqCancelUpgradeService) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respCancelUpgradeService struct {
+	respCommon
+}
+
+// reqBatchGetCustomer 获取客户基础信息
+type reqBatchGetCustomer struct {
+	ExternalUserIdList      []string `json:"external_userid_list"`
+	NeedEnterSessionContext uint8    `json:"need_enter_session_context"`
+}
+
+var _ bodyer = reqBatchGetCustomer{}
+
+func (x reqBatchGetCustomer) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respBatchGetCustomer struct {
+	respCommon
+	CustomerList          []KfCustomer `json:"customer_list"`
+	InvalidExternalUserId []string     `json:"invalid_external_userid"`
+}
+
+type KfCustomer struct {
+	ExternalUserId      string                `json:"external_userid"`
+	Nickname            string                `json:"nickname"`
+	Avatar              string                `json:"avatar"`
+	Gender              int                   `json:"gender"`
+	UnionId             string                `json:"unionid"`
+	EnterSessionContext KfEnterSessionContext `json:"enter_session_context"`
+}
+
+type KfEnterSessionContext struct {
+	Scene          string           `json:"scene"`
+	SceneParam     string           `json:"scene_param"`
+	WechatChannels KfWechatChannels `json:"wechat_channels"`
+}
+
+type KfWechatChannels struct {
+	Nickname     string `json:"nickname"`
+	ShopNickname string `json:"shop_nickname"`
+	Scene        uint32 `json:"scene"`
+}
+
+// reqGetCorpStatistic 获取「客户数据统计」企业汇总数据
+type reqGetCorpStatistic struct {
+	OpenKfId  string `json:"open_kfid"`
+	StartTime uint32 `json:"start_time"`
+	EndTime   uint32 `json:"end_time"`
+}
+
+var _ bodyer = reqGetCorpStatistic{}
+
+func (x reqGetCorpStatistic) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respGetCorpStatistic struct {
+	respCommon
+	StatisticList []KfCorpStatistic `json:"statistic_list"`
+}
+
+type KfCorpStatistic struct {
+	StartTime uint32 `json:"start_time"`
+}
+
+type KfCorpStatisticDetail struct {
+	SessionCnt                uint64  `json:"session_cnt"`
+	CustomerCnt               uint64  `json:"customer_cnt"`
+	CustomerMsgCnt            uint64  `json:"customer_msg_cnt"`
+	UpgradeServiceCustomerCnt uint64  `json:"upgrade_service_customer_cnt"`
+	AiSessionReplyCnt         uint64  `json:"ai_session_reply_cnt"`
+	AIKnowledgeHitRate        float64 `json:"ai_knowledge_hit_rate"`
+	MsgRejectedCustomerCnt    uint64  `json:"msg_rejected_customer_cnt"`
+}
+
+// reqGetServicerStatistic 获取「客户数据统计」
+type reqGetServicerStatistic struct {
+	OpenKfId       string `json:"open_kfid"`
+	ServicerUserId string `json:"servicer_userid"`
+	StartTime      uint32 `json:"start_time"`
+	EndTime        uint32 `json:"end_time"`
+}
+
+var _ bodyer = reqGetServicerStatistic{}
+
+func (x reqGetServicerStatistic) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respGetServicerStatistic struct {
+	respCommon
+}
+
+type KfServicerStatistic struct {
+	StartTime uint32                    `json:"start_time"`
+	Statistic KfServicerStatisticDetail `json:"statistic"`
+}
+
+type KfServicerStatisticDetail struct {
+	SessionCnt                         uint64  `json:"session_cnt"`
+	CustomerCnt                        uint64  `json:"customer_cnt"`
+	CustomerMsgCnt                     uint64  `json:"customer_msg_cnt"`
+	ReplyRate                          float64 `json:"reply_rate"`
+	FirstReplyAverageSec               float64 `json:"first_reply_avg_sec"`
+	SatisfactionInvestgateCnt          uint64  `json:"satisfaction_investgate_cnt"`
+	SatisfactionParticipationRate      float64 `json:"satisfaction_participation_rate"`
+	SatisfiedRate                      float64 `json:"satisfied_rate"`
+	MiddlingRate                       float64 `json:"middling_rate"`
+	DissatisfiedRate                   float64 `json:"dissatisfied_rate"`
+	UpgradeServiceCustomerCnt          uint64  `json:"upgrade_service_customer_cnt"`
+	UpgradeServiceMemberInviteCnt      uint64  `json:"upgrade_service_member_invite_cnt"`
+	UpgradeServiceMemberCustomerCnt    uint64  `json:"upgrade_service_member_customer_cnt"`
+	UpgradeServiceGroupchatInviteCnt   uint64  `json:"upgrade_service_groupchat_invite_cnt"`
+	UpgradeServiceGroupchatCustomerCnt uint64  `json:"upgrade_service_groupchat_customer_cnt"`
+	MsgRejectedCustomerCnt             uint64  `json:"msg_rejected_customer_cnt"`
+}
+
+// reqAddKnowledgeGroup 添加知识库分组
+type reqAddKnowledgeGroup struct {
+	Name string `json:"name"`
+}
+
+var _ bodyer = reqAddKnowledgeGroup{}
+
+func (x reqAddKnowledgeGroup) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respAddKnowledgeGroup struct {
+	respCommon
+	GroupId string `json:"group_id"`
+}
+
+// reqDelKnowledgeGroup 删除知识库分组
+type reqDelKnowledgeGroup struct {
+	GroupId string `json:"group_id"`
+}
+
+var _ bodyer = reqDelKnowledgeGroup{}
+
+func (x reqDelKnowledgeGroup) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respDelKnowledgeGroup struct {
+	respCommon
+}
+
+// reqModKnowledgeGroup 修改知识库分组
+type reqModKnowledgeGroup struct {
+	GroupId string `json:"group_id"`
+	Name    string `json:"name"`
+}
+
+var _ bodyer = reqModKnowledgeGroup{}
+
+func (x reqModKnowledgeGroup) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respModKnowledgeGroup struct {
+	respCommon
+}
+
+// reqGetKnowledgeGroupList 获取知识库分组列表
+type reqGetKnowledgeGroupList struct {
+	Cursor  string `json:"cursor"`
+	Limit   uint32 `json:"limit"`
+	GroupId string `json:"group_id"`
+}
+
+var _ bodyer = reqGetKnowledgeGroupList{}
+
+func (x reqGetKnowledgeGroupList) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respGetKnowledgeGroupList struct {
+	respCommon
+	NextCursor string             `json:"next_cursor"`
+	HasMore    uint32             `json:"has_more"`
+	GroupList  []KfKnowledgeGroup `json:"group_list"`
+}
+
+type KfKnowledgeGroup struct {
+	GroupId   string `json:"group_id"`
+	Name      string `json:"name"`
+	IsDefault uint32 `json:"is_default"`
+}
+
+// reqAddKnowledgeIntent 添加知识库问答
+type reqAddKnowledgeIntent struct {
+	GroupId          string             `json:"group_id"`
+	Question         KfQuestion         `json:"question"`
+	SimilarQuestions KfSimilarQuestions `json:"similar_questions"`
+	Answers          []KfQuestionAnswer `json:"answers"`
+}
+
+type KfQuestion struct {
+	Text KfQuestionText `json:"text"`
+}
+
+type KfQuestionText struct {
+	Content string `json:"content"`
+}
+
+type KfSimilarQuestions struct {
+	Items []KfQuestionText `json:"items"`
+}
+
+type KfQuestionAnswer struct {
+	Text KfQuestionAnswerText `json:"text"`
+}
+
+type KfQuestionAnswerText struct {
+	Content string `json:"content"`
+}
+
+type KfQuestionAnswerAttachment struct {
+	MsgType string `json:"msgtype"`
+	Content map[string]interface{}
+}
+
+type KfQuestionAnswerAttachmentImage struct {
+	MediaID string `json:"media_id"`
+	Name    string `json:"name"`
+}
+
+type KfQuestionAnswerAttachmentVideo struct {
+	MediaID string `json:"media_id"`
+	Name    string `json:"name"`
+}
+
+type KfQuestionAnswerAttachmentLink struct {
+	Title  string `json:"title"`
+	Desc   string `json:"desc"`
+	Url    string `json:"url"`
+	PicUrl string `json:"pic_url"`
+}
+
+type KfQuestionAnswerAttachmentMiniprogram struct {
+	Title        string `json:"title"`
+	Appid        string `json:"appid"`
+	ThumbMediaId string `json:"thumb_media_id"`
+}
+
+var _ bodyer = reqAddKnowledgeIntent{}
+
+func (x reqAddKnowledgeIntent) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respAddKnowledgeIntent struct {
+	respCommon
+	IntentId string `json:"intent_id"`
+}
+
+// reqDelKnowledgeIntent 删除知识库问答
+type reqDelKnowledgeIntent struct {
+	IntentId string `json:"intent_id"`
+}
+
+var _ bodyer = reqDelKnowledgeIntent{}
+
+func (x reqDelKnowledgeIntent) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respDelKnowledgeIntent struct {
+	respCommon
+}
+
+// reqModKnowledgeIntent 修改知识库问答
+type reqModKnowledgeIntent struct {
+	IntentId         string             `json:"intent_id"`
+	Question         KfQuestion         `json:"question"`
+	SimilarQuestions KfSimilarQuestions `json:"similar_questions"`
+	Answers          []KfQuestionAnswer `json:"answers"`
+}
+
+var _ bodyer = reqModKnowledgeIntent{}
+
+func (x reqModKnowledgeIntent) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respModKnowledgeIntent struct {
+	respCommon
+}
+
+// reqGetKnowledgeIntentList 获取知识库问答列表
+type reqGetKnowledgeIntentList struct {
+	Cursor   string `json:"cursor"`
+	Limit    uint32 `json:"limit"`
+	GroupId  string `json:"group_id"`
+	IntentId string `json:"intent_id"`
+}
+
+var _ bodyer = reqGetKnowledgeIntentList{}
+
+func (x reqGetKnowledgeIntentList) intoBody() ([]byte, error) {
+	return marshalIntoJSONBody(x)
+}
+
+type respGetKnowledgeIntentList struct {
+	respCommon
+	NextCursor string                    `json:"next_cursor"`
+	HasMore    uint32                    `json:"has_more"`
+	IntentList []KfKnowledgeIntentDetail `json:"intent_list"`
+}
+
+type KfKnowledgeIntentDetail struct {
+	IntentId string     `json:"intent_id"`
+	GroupId  string     `json:"group_id"`
+	Question KfQuestion `json:"question"`
+}
