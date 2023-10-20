@@ -1,18 +1,80 @@
 package workwx
 
-type KfSession struct {
-	ToUser   string `json:"touser"`
-	OpenKFID string `json:"open_kfid"`
+//type KfSession struct {
+//	ToUser   string `json:"touser"`
+//	OpenKfId string `json:"open_kfid"`
+//}
+
+// GetKfServiceState 获取微信客服状态
+func (c *WorkwxApp) GetKfServiceState(
+	openKfId string,
+	externalUserID string,
+) (int, string, error) {
+	resp, err := c.execGetKfServiceState(reqGetKfServiceState{
+		OpenKfId:       openKfId,
+		ExternalUserID: externalUserID,
+	})
+	if err != nil {
+		return 0, "", err
+	}
+
+	return resp.ServiceState, resp.ServiceUserID, nil
+}
+
+// TransKfServiceState 变更会话状态
+func (c *WorkwxApp) TransKfServiceState(
+	openKfId string,
+	externalUserID string,
+	serviceState int,
+	ServiceUserID string,
+) (string, error) {
+	resp, err := c.execTransKfServiceState(reqTransKfServiceState{
+		OpenKfId:       openKfId,
+		ExternalUserID: externalUserID,
+		ServiceState:   serviceState,
+		ServiceUserID:  ServiceUserID,
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	return resp.MsgCode, nil
+}
+
+// SyncKfMsg 读取消息
+func (c *WorkwxApp) SyncKfMsg(
+	cursor string,
+	token string,
+	limit uint32,
+	voiceFormat uint32,
+	openKfId string,
+) ([]*KfMsg, error) {
+	resp, err := c.execSyncKfMsg(reqSyncKfMsg{
+		Cursor:      cursor,
+		Token:       token,
+		Limit:       limit,
+		VoiceFormat: voiceFormat,
+		OpenKfId:    openKfId,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.MsgList, nil
 }
 
 // SendKfTextMessage 发送微信客服文本消息
 func (c *WorkwxApp) SendKfTextMessage(
-	session *KfSession,
+	toUser string,
+	openKfId string,
 	msgId string,
 	content string,
 ) error {
 	return c.sendKfMessage(
-		session,
+		toUser,
+		openKfId,
 		msgId,
 		"text",
 		map[string]interface{}{
@@ -23,12 +85,14 @@ func (c *WorkwxApp) SendKfTextMessage(
 
 // SendKfImageMessage 发送微信客服图片消息
 func (c *WorkwxApp) SendKfImageMessage(
-	session *KfSession,
+	toUser string,
+	openKfId string,
 	msgId string,
 	mediaID string,
 ) error {
 	return c.sendKfMessage(
-		session,
+		toUser,
+		openKfId,
 		msgId,
 		"image",
 		map[string]interface{}{
@@ -39,12 +103,14 @@ func (c *WorkwxApp) SendKfImageMessage(
 
 // SendKfVoiceMessage 发送微信客服语音消息
 func (c *WorkwxApp) SendKfVoiceMessage(
-	session *KfSession,
+	toUser string,
+	openKfId string,
 	msgId string,
 	mediaID string,
 ) error {
 	return c.sendKfMessage(
-		session,
+		toUser,
+		openKfId,
 		msgId,
 		"voice",
 		map[string]interface{}{
@@ -55,12 +121,14 @@ func (c *WorkwxApp) SendKfVoiceMessage(
 
 // SendKfVideoMessage 发送微信客服视频消息
 func (c *WorkwxApp) SendKfVideoMessage(
-	session *KfSession,
+	toUser string,
+	openKfId string,
 	msgId string,
 	mediaID string,
 ) error {
 	return c.sendKfMessage(
-		session,
+		toUser,
+		openKfId,
 		msgId,
 		"video",
 		map[string]interface{}{
@@ -71,12 +139,14 @@ func (c *WorkwxApp) SendKfVideoMessage(
 
 // SendKfFileMessage 发送微信客服文件消息
 func (c *WorkwxApp) SendKfFileMessage(
-	session *KfSession,
+	toUser string,
+	openKfId string,
 	msgId string,
 	mediaID string,
 ) error {
 	return c.sendKfMessage(
-		session,
+		toUser,
+		openKfId,
 		msgId,
 		"file",
 		map[string]interface{}{
@@ -87,7 +157,8 @@ func (c *WorkwxApp) SendKfFileMessage(
 
 // SendKfLinkMessage 发送微信客服图文链接消息
 func (c *WorkwxApp) SendKfLinkMessage(
-	session *KfSession,
+	toUser string,
+	openKfId string,
 	msgId string,
 	title string,
 	desc string,
@@ -95,7 +166,8 @@ func (c *WorkwxApp) SendKfLinkMessage(
 	thumbUrl string,
 ) error {
 	return c.sendKfMessage(
-		session,
+		toUser,
+		openKfId,
 		msgId,
 		"link",
 		map[string]interface{}{
@@ -109,7 +181,8 @@ func (c *WorkwxApp) SendKfLinkMessage(
 
 // SendKfMiniProgramMessage 发送微信客服小程序卡片消息
 func (c *WorkwxApp) SendKfMiniProgramMessage(
-	session *KfSession,
+	toUser string,
+	openKfId string,
 	msgId string,
 	title string,
 	thumbUrl string,
@@ -117,7 +190,8 @@ func (c *WorkwxApp) SendKfMiniProgramMessage(
 	pagepath string,
 ) error {
 	return c.sendKfMessage(
-		session,
+		toUser,
+		openKfId,
 		msgId,
 		"miniprogram",
 		map[string]interface{}{
@@ -131,14 +205,16 @@ func (c *WorkwxApp) SendKfMiniProgramMessage(
 
 // SendKfMenuMessage 发送微信客服菜单消息
 func (c *WorkwxApp) SendKfMenuMessage(
-	session *KfSession,
+	toUser string,
+	openKfId string,
 	msgId string,
 	headContent string,
 	list []KfMsgMenu,
 	tailContent string,
 ) error {
 	return c.sendKfMessage(
-		session,
+		toUser,
+		openKfId,
 		msgId,
 		"menu",
 		map[string]interface{}{
@@ -151,7 +227,8 @@ func (c *WorkwxApp) SendKfMenuMessage(
 
 // SendKfLocationMessage 发送微信客服地理位置消息
 func (c *WorkwxApp) SendKfLocationMessage(
-	session *KfSession,
+	toUser string,
+	openKfId string,
 	msgId string,
 	name string,
 	address string,
@@ -159,7 +236,8 @@ func (c *WorkwxApp) SendKfLocationMessage(
 	longitude float64,
 ) error {
 	return c.sendKfMessage(
-		session,
+		toUser,
+		openKfId,
 		msgId,
 		"location",
 		map[string]interface{}{
@@ -173,14 +251,15 @@ func (c *WorkwxApp) SendKfLocationMessage(
 
 // sendKfMessage 发送微信客服消息底层接口
 func (c *WorkwxApp) sendKfMessage(
-	session *KfSession,
+	toUser string,
+	openKfId string,
 	msgId string,
 	msgType string,
 	content map[string]interface{},
 ) error {
 	req := reqSendKfMsg{
-		ToUser:   session.ToUser,
-		OpenKfId: session.OpenKFID,
+		ToUser:   toUser,
+		OpenKfId: openKfId,
 		MsgId:    msgId,
 		MsgType:  msgType,
 		Content:  content,
@@ -195,4 +274,23 @@ func (c *WorkwxApp) sendKfMessage(
 	// TODO: what to do with resp?
 	_ = resp
 	return nil
+}
+
+// SendKfMsgOnEvent 发送欢迎语等事件响应消息
+func (c *WorkwxApp) SendKfMsgOnEvent(
+	code string,
+	msgId string,
+	msgType string,
+) (string, error) {
+	resp, err := c.execSendKfMsgOnEvent(reqSendKfMsgOnEvent{
+		Code:    code,
+		MsgId:   msgId,
+		MsgType: msgType,
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	return resp.MsgId, nil
 }

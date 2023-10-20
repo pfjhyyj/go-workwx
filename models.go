@@ -1539,19 +1539,106 @@ func (x reqSyncKfMsg) intoBody() ([]byte, error) {
 
 type respSyncKfMsg struct {
 	respCommon
-	NextCursor string  `json:"next_cursor"`
-	HasMore    uint32  `json:"has_more"`
-	MsgList    []KfMsg `json:"msg_list"`
+	NextCursor string   `json:"next_cursor"`
+	HasMore    uint32   `json:"has_more"`
+	MsgList    []*KfMsg `json:"msg_list"`
 }
 
 type KfMsg struct {
 	MsgId          string `json:"msgid"`
 	OpenKfId       string `json:"open_kfid"`
-	ExternalUserId string `json:"external_userid"`
+	ExternalUserID string `json:"external_userid"`
 	SendTime       uint64 `json:"send_time"`
 	Origin         uint32 `json:"origin"`
 	ServicerUserId string `json:"servicer_userid"`
 	MsgType        uint32 `json:"msgtype"`
+	Text           struct {
+		Content string `json:"content"`
+		MenuId  string `json:"menu_id"`
+	} `json:"text"`
+	Image struct {
+		MediaId string `json:"media_id"`
+	} `json:"image"`
+	Voice struct {
+		MediaId string `json:"media_id"`
+	}
+	Video struct {
+		MediaId string `json:"media_id"`
+	} `json:"video"`
+	File struct {
+		MediaId string `json:"media_id"`
+	} `json:"file"`
+	Location struct {
+		Latitude  string `json:"latitude"`
+		Longitude string `json:"longitude"`
+		Name      string `json:"name"`
+		Address   string `json:"address"`
+	} `json:"location"`
+	Link struct {
+		Title  string `json:"title"`
+		Desc   string `json:"desc"`
+		Url    string `json:"url"`
+		PicUrl string `json:"pic_url"`
+	} `json:"link"`
+	BusinessCard struct {
+		UserId string `json:"userid"`
+	} `json:"business_card"`
+	MiniProgram struct {
+		Title        string `json:"title"`
+		Appid        string `json:"appid"`
+		PagePath     string `json:"pagepath"`
+		ThumbMediaId string `json:"thumb_media_id"`
+	} `json:"miniprogram"`
+	MsgMenu struct {
+		HeadContent string `json:"head_content"`
+		List        []struct {
+			Type  string `json:"type"`
+			Click struct {
+				Id      string `json:"id"`
+				Content string `json:"content"`
+			} `json:"click"`
+			View struct {
+				Url     string `json:"url"`
+				Content string `json:"content"`
+			} `json:"view"`
+			MiniProgram struct {
+				Appid    string `json:"appid"`
+				Pagepath string `json:"pagepath"`
+				Content  string `json:"content"`
+			}
+		} `json:"list"`
+		TailContent string `json:"tail_content"`
+	} `json:"msgmenu"`
+	ChannelsShopProduct struct {
+		ProductId     string `json:"product_id"`
+		HeadImage     string `json:"head_image"`
+		Title         string `json:"title"`
+		SalesPrice    string `json:"sales_price"`
+		ShopNickname  string `json:"shop_nickname"`
+		ShopHeadImage string `json:"shop_head_image"`
+	} `json:"channels_shop_product"`
+	ChannelsShopOrder struct {
+		OrderId       string `json:"order_id"`
+		ProductTitles string `json:"product_titles"`
+		PriceWording  string `json:"price_wording"`
+		State         string `json:"state"`
+		ImageUrl      string `json:"image_url"`
+		ShopNickname  string `json:"shop_nickname"`
+	} `json:"channels_shop_order"`
+	MergedMsg struct {
+		Title string `json:"title"`
+		Item  []struct {
+			SendTime   uint32 `json:"send_time"`
+			MsgType    uint32 `json:"msgtype"`
+			SenderName string `json:"sender_name"`
+			MsgContent string `json:"msg_content"`
+		} `json:"item"`
+	} `json:"merged_msg"`
+	Channels struct {
+		SubType  uint32 `json:"sub_type"`
+		Nickname string `json:"nickname"`
+		Title    string `json:"title"`
+	} `json:"channels"`
 }
 
 // reqSendKfMsg 发送客服消息
@@ -1637,7 +1724,7 @@ type respGetUpgradeServiceConfig struct {
 // reqUpgradeService 为客户升级为专员或客户群服务
 type reqUpgradeService struct {
 	OpenKfId       string             `json:"open_kfid"`
-	ExternalUserId string             `json:"external_userid"`
+	ExternalUserID string             `json:"external_userid"`
 	Type           uint32             `json:"type"`
 	Member         KfUpgradeMember    `json:"member"`
 	GroupChat      KfUpgradeGroupChat `json:"groupchat"`
@@ -1666,7 +1753,7 @@ type respUpgradeService struct {
 // reqCancelUpgradeService 为客户取消推荐
 type reqCancelUpgradeService struct {
 	OpenKfId       string `json:"open_kfid"`
-	ExternalUserId string `json:"external_userid"`
+	ExternalUserID string `json:"external_userid"`
 }
 
 var _ bodyer = reqCancelUpgradeService{}
@@ -1681,7 +1768,7 @@ type respCancelUpgradeService struct {
 
 // reqBatchGetCustomer 获取客户基础信息
 type reqBatchGetCustomer struct {
-	ExternalUserIdList      []string `json:"external_userid_list"`
+	ExternalUserIDList      []string `json:"external_userid_list"`
 	NeedEnterSessionContext uint8    `json:"need_enter_session_context"`
 }
 
@@ -1694,11 +1781,11 @@ func (x reqBatchGetCustomer) intoBody() ([]byte, error) {
 type respBatchGetCustomer struct {
 	respCommon
 	CustomerList          []KfCustomer `json:"customer_list"`
-	InvalidExternalUserId []string     `json:"invalid_external_userid"`
+	InvalidExternalUserID []string     `json:"invalid_external_userid"`
 }
 
 type KfCustomer struct {
-	ExternalUserId      string                `json:"external_userid"`
+	ExternalUserID      string                `json:"external_userid"`
 	Nickname            string                `json:"nickname"`
 	Avatar              string                `json:"avatar"`
 	Gender              int                   `json:"gender"`
