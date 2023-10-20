@@ -1566,7 +1566,14 @@ type reqSendKfMsg struct {
 var _ bodyer = reqSendKfMsg{}
 
 func (x reqSendKfMsg) intoBody() ([]byte, error) {
-	return marshalIntoJSONBody(x)
+	obj := map[string]interface{}{
+		"msgtype": x.MsgType,
+	}
+
+	// msgtype polymorphism
+	obj[x.MsgType] = x.Content
+
+	return marshalIntoJSONBody(obj)
 }
 
 type respSendKfMsg struct {
