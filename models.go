@@ -1551,7 +1551,7 @@ type KfMsg struct {
 	SendTime       uint64 `json:"send_time"`
 	Origin         uint32 `json:"origin"`
 	ServicerUserId string `json:"servicer_userid"`
-	MsgType        uint32 `json:"msgtype"`
+	MsgType        string `json:"msgtype"`
 	Text           struct {
 		Content string `json:"content"`
 		MenuId  string `json:"menu_id"`
