@@ -1563,6 +1563,27 @@ type reqSendKfMsg struct {
 	Content  map[string]interface{}
 }
 
+type KfMsgMenu struct {
+	Type  string `json:"type"`
+	Click struct {
+		Id      string `json:"id"`
+		Content string `json:"content"`
+	} `json:"click"`
+	View struct {
+		Url     string `json:"url"`
+		Content string `json:"content"`
+	} `json:"view"`
+	MiniProgram struct {
+		Appid    string `json:"appid"`
+		Pagepath string `json:"pagepath"`
+		Content  string `json:"content"`
+	}
+	Text struct {
+		Content   string `json:"content"`
+		NoNewLine bool   `json:"no_new_line"`
+	}
+}
+
 var _ bodyer = reqSendKfMsg{}
 
 func (x reqSendKfMsg) intoBody() ([]byte, error) {
