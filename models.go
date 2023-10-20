@@ -1299,7 +1299,7 @@ type respAddMsgTemplateExternalContact struct {
 
 type AddMsgTemplateDetail struct {
 	FailList []string `json:"fail_list"`
-	MsgID    string   `json:"msgid"`
+	MsgId    string   `json:"msgid"`
 }
 
 // reqSendWelcomeMsgExternalContact 发送新客户欢迎语
@@ -1545,7 +1545,7 @@ type respSyncKfMsg struct {
 }
 
 type KfMsg struct {
-	MsgID          string `json:"msgid"`
+	MsgId          string `json:"msgid"`
 	OpenKfId       string `json:"open_kfid"`
 	ExternalUserId string `json:"external_userid"`
 	SendTime       uint64 `json:"send_time"`
@@ -1558,7 +1558,7 @@ type KfMsg struct {
 type reqSendKfMsg struct {
 	ToUser   string `json:"toUser"`
 	OpenKfId string `json:"open_kfid"`
-	MsgID    string `json:"msgid"`
+	MsgId    string `json:"msgid"`
 	MsgType  string `json:"msgtype"`
 	Content  map[string]interface{}
 }
@@ -1578,13 +1578,13 @@ func (x reqSendKfMsg) intoBody() ([]byte, error) {
 
 type respSendKfMsg struct {
 	respCommon
-	MsgID string `json:"msgid"`
+	MsgId string `json:"msgid"`
 }
 
 // reqSendKfMsgOnEvent 发送欢迎语等事件响应消息
 type reqSendKfMsgOnEvent struct {
 	Code    string `json:"code"`
-	MsgID   string `json:"msgid"`
+	MsgId   string `json:"msgid"`
 	MsgType string `json:"msgtype"`
 	Content map[string]interface{}
 }
@@ -1597,7 +1597,7 @@ func (x reqSendKfMsgOnEvent) intoBody() ([]byte, error) {
 
 type respSendKfMsgOnEvent struct {
 	respCommon
-	MsgID string `json:"msgid"`
+	MsgId string `json:"msgid"`
 }
 
 // reqGetUpgradeServiceConfig 获取配置的专员与客户群
