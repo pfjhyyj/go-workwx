@@ -7,71 +7,71 @@ import (
 type kfMessageDetail interface {
 }
 
-type kfTextMessage struct {
+type KfTextMessage struct {
 	Content string `json:"content"`
 	MenuId  string `json:"menu_id"`
 }
 
-var _ kfMessageDetail = (*kfTextMessage)(nil)
+var _ kfMessageDetail = (*KfTextMessage)(nil)
 
-type kfImageMessage struct {
+type KfImageMessage struct {
 	MediaId string `json:"media_id"`
 }
 
-var _ kfMessageDetail = (*kfImageMessage)(nil)
+var _ kfMessageDetail = (*KfImageMessage)(nil)
 
-type kfVoiceMessage struct {
+type KfVoiceMessage struct {
 	MediaId string `json:"media_id"`
 }
 
-var _ kfMessageDetail = (*kfVoiceMessage)(nil)
+var _ kfMessageDetail = (*KfVoiceMessage)(nil)
 
-type kfVideoMessage struct {
+type KfVideoMessage struct {
 	MediaId string `json:"media_id"`
 }
 
-var _ kfMessageDetail = (*kfVideoMessage)(nil)
+var _ kfMessageDetail = (*KfVideoMessage)(nil)
 
-type kfFileMessage struct {
+type KfFileMessage struct {
 	MediaId string `json:"media_id"`
 }
 
-var _ kfMessageDetail = (*kfFileMessage)(nil)
+var _ kfMessageDetail = (*KfFileMessage)(nil)
 
-type kfLocationMessage struct {
+type KfLocationMessage struct {
 	Latitude  string `json:"latitude"`
 	Longitude string `json:"longitude"`
 	Name      string `json:"name"`
 	Address   string `json:"address"`
 }
 
-var _ kfMessageDetail = (*kfLocationMessage)(nil)
+var _ kfMessageDetail = (*KfLocationMessage)(nil)
 
-type kfLinkMessage struct {
+type KfLinkMessage struct {
 	Title  string `json:"title"`
 	Desc   string `json:"desc"`
 	Url    string `json:"url"`
 	PicUrl string `json:"pic_url"`
 }
 
-var _ kfMessageDetail = (*kfLinkMessage)(nil)
+var _ kfMessageDetail = (*KfLinkMessage)(nil)
 
-type kfBusinessCardMessage struct {
+type KfBusinessCardMessage struct {
 	UserId string `json:"userid"`
 }
 
-var _ kfMessageDetail = (*kfBusinessCardMessage)(nil)
+var _ kfMessageDetail = (*KfBusinessCardMessage)(nil)
 
-type kfMiniProgramMessage struct {
+type KfMiniProgramMessage struct {
 	Title        string `json:"title"`
 	Appid        string `json:"appid"`
 	PagePath     string `json:"pagepath"`
 	ThumbMediaId string `json:"thumb_media_id"`
 }
 
-var _ kfMessageDetail = (*kfMiniProgramMessage)(nil)
+var _ kfMessageDetail = (*KfMiniProgramMessage)(nil)
 
-type kfMsgMenuMessage struct {
+type KfMsgMenuMessage struct {
 	HeadContent string `json:"head_content"`
 	List        []struct {
 		Type  string `json:"type"`
@@ -92,9 +92,9 @@ type kfMsgMenuMessage struct {
 	TailContent string `json:"tail_content"`
 }
 
-var _ kfMessageDetail = (*kfMsgMenuMessage)(nil)
+var _ kfMessageDetail = (*KfMsgMenuMessage)(nil)
 
-type kfChannelsShopProductMessage struct {
+type KfChannelsShopProductMessage struct {
 	ProductId     string `json:"product_id"`
 	HeadImage     string `json:"head_image"`
 	Title         string `json:"title"`
@@ -103,9 +103,9 @@ type kfChannelsShopProductMessage struct {
 	ShopHeadImage string `json:"shop_head_image"`
 }
 
-var _ kfMessageDetail = (*kfChannelsShopProductMessage)(nil)
+var _ kfMessageDetail = (*KfChannelsShopProductMessage)(nil)
 
-type kfChannelsShopOrder struct {
+type KfChannelsShopOrderMessage struct {
 	OrderId       string `json:"order_id"`
 	ProductTitles string `json:"product_titles"`
 	PriceWording  string `json:"price_wording"`
@@ -114,9 +114,9 @@ type kfChannelsShopOrder struct {
 	ShopNickname  string `json:"shop_nickname"`
 }
 
-var _ kfMessageDetail = (*kfChannelsShopOrder)(nil)
+var _ kfMessageDetail = (*KfChannelsShopOrderMessage)(nil)
 
-type kfMergedMessage struct {
+type KfMergedMessage struct {
 	Title string `json:"title"`
 	Item  []struct {
 		SendTime   uint32 `json:"send_time"`
@@ -126,19 +126,19 @@ type kfMergedMessage struct {
 	} `json:"item"`
 }
 
-var _ kfMessageDetail = (*kfMergedMessage)(nil)
+var _ kfMessageDetail = (*KfMergedMessage)(nil)
 
-type kfChannelsMessage struct {
+type KfChannelsMessage struct {
 	SubType  uint32 `json:"sub_type"`
 	Nickname string `json:"nickname"`
 	Title    string `json:"title"`
 }
 
-var _ kfMessageDetail = (*kfChannelsMessage)(nil)
+var _ kfMessageDetail = (*KfChannelsMessage)(nil)
 
-type kfEventEnterSession struct {
+type KfEventEnterSession struct {
 	EventType      KfEventType `json:"event_type"`
-	OpenKfId       string      `json:"open_kfid"`
+	OpenKfId       string      `json:"open_Kfid"`
 	ExternalUserId string      `json:"external_userid"`
 	Scene          string      `json:"scene"`
 	SceneParam     string      `json:"scene_param"`
@@ -150,25 +150,25 @@ type kfEventEnterSession struct {
 	} `json:"wechat_channels"`
 }
 
-type kfEventMsgSendFail struct {
+type KfEventMsgSendFail struct {
 	EventType      KfEventType `json:"event_type"`
-	OpenKfId       string      `json:"open_kfid"`
+	OpenKfId       string      `json:"open_Kfid"`
 	ExternalUserId string      `json:"external_userid"`
 	FailMsgId      string      `json:"fail_msgid"`
 	FailType       uint32      `json:"fail_type"`
 }
 
-type kfEventServicerStatusChange struct {
+type KfEventServicerStatusChange struct {
 	EventType      KfEventType `json:"event_type"`
-	OpenKfId       string      `json:"open_kfid"`
+	OpenKfId       string      `json:"open_Kfid"`
 	ServicerUserId string      `json:"servicer_userid"`
 	Status         uint32      `json:"status"`
 	StopType       uint32      `json:"stop_type"`
 }
 
-type kfEventSessionStatusChange struct {
+type KfEventSessionStatusChange struct {
 	EventType         KfEventType `json:"event_type"`
-	OpenKfId          string      `json:"open_kfid"`
+	OpenKfId          string      `json:"open_Kfid"`
 	ExternalUserId    string      `json:"external_userid"`
 	ChangeType        uint32      `json:"change_type"`
 	OldServicerUserId string      `json:"old_servicer_userid"`
@@ -176,30 +176,30 @@ type kfEventSessionStatusChange struct {
 	MsgCode           string      `json:"msg_code"`
 }
 
-type kfEventUserRecallMsg struct {
+type KfEventUserRecallMsg struct {
 	EventType      KfEventType `json:"event_type"`
-	OpenKfId       string      `json:"open_kfid"`
+	OpenKfId       string      `json:"open_Kfid"`
 	ExternalUserId string      `json:"external_userid"`
 	RecallMsgId    string      `json:"recall_msgid"`
 }
 
-type kfEventServicerRecallMsg struct {
+type KfEventServicerRecallMsg struct {
 	EventType      KfEventType `json:"event_type"`
-	OpenKfId       string      `json:"open_kfid"`
+	OpenKfId       string      `json:"open_Kfid"`
 	ExternalUserId string      `json:"external_userid"`
 	RecallMsgId    string      `json:"recall_msgid"`
 	ServicerUserId string      `json:"servicer_userid"`
 }
 
-type kfEventRejectCustomerMsgSwitchChange struct {
+type KfEventRejectCustomerMsgSwitchChange struct {
 	EventType      KfEventType `json:"event_type"`
-	OpenKfId       string      `json:"open_kfid"`
+	OpenKfId       string      `json:"open_Kfid"`
 	ServicerUserId string      `json:"servicer_userid"`
 	ExternalUserId string      `json:"external_userid"`
 	RejectSwitch   uint32      `json:"reject_switch"`
 }
 
-func extractKfMessageExtras(common kfMsgCommon, msg KfMsgRaw) (kfMessageDetail, error) {
+func extractKfMessageExtras(common kfMsgCommon, msg kfMsgRaw) (kfMessageDetail, error) {
 	switch common.MsgType {
 	case KfMessageTypeText:
 		return msg.Text, nil
@@ -236,7 +236,7 @@ func extractKfMessageExtras(common kfMsgCommon, msg KfMsgRaw) (kfMessageDetail, 
 	case KfMessageTypeEvent:
 		switch common.EventType {
 		case KfEventTypeEnterSession:
-			return kfEventEnterSession{
+			return KfEventEnterSession{
 				EventType:      common.EventType,
 				OpenKfId:       common.OpenKfId,
 				ExternalUserId: common.ExternalUserID,
@@ -246,7 +246,7 @@ func extractKfMessageExtras(common kfMsgCommon, msg KfMsgRaw) (kfMessageDetail, 
 				WechatChannels: msg.Event.WechatChannels,
 			}, nil
 		case KfEventTypeMsgSendFail:
-			return kfEventMsgSendFail{
+			return KfEventMsgSendFail{
 				EventType:      common.EventType,
 				OpenKfId:       common.OpenKfId,
 				ExternalUserId: common.ExternalUserID,
@@ -254,7 +254,7 @@ func extractKfMessageExtras(common kfMsgCommon, msg KfMsgRaw) (kfMessageDetail, 
 				FailType:       msg.Event.FailType,
 			}, nil
 		case KfEventTypeServicerStatusChange:
-			return kfEventServicerStatusChange{
+			return KfEventServicerStatusChange{
 				EventType:      common.EventType,
 				OpenKfId:       common.OpenKfId,
 				ServicerUserId: common.ServicerUserId,
@@ -262,7 +262,7 @@ func extractKfMessageExtras(common kfMsgCommon, msg KfMsgRaw) (kfMessageDetail, 
 				StopType:       msg.Event.StopType,
 			}, nil
 		case KfEventTypeSessionStatusChange:
-			return kfEventSessionStatusChange{
+			return KfEventSessionStatusChange{
 				EventType:         common.EventType,
 				OpenKfId:          common.OpenKfId,
 				ExternalUserId:    common.ExternalUserID,
@@ -272,14 +272,14 @@ func extractKfMessageExtras(common kfMsgCommon, msg KfMsgRaw) (kfMessageDetail, 
 				MsgCode:           msg.Event.MsgCode,
 			}, nil
 		case KfEventTypeUserRecallMsg:
-			return kfEventUserRecallMsg{
+			return KfEventUserRecallMsg{
 				EventType:      common.EventType,
 				OpenKfId:       common.OpenKfId,
 				ExternalUserId: common.ExternalUserID,
 				RecallMsgId:    msg.Event.RecallMsgId,
 			}, nil
 		case KfEventTypeServicerRecallMsg:
-			return kfEventServicerRecallMsg{
+			return KfEventServicerRecallMsg{
 				EventType:      common.EventType,
 				OpenKfId:       common.OpenKfId,
 				ExternalUserId: common.ExternalUserID,
@@ -287,7 +287,7 @@ func extractKfMessageExtras(common kfMsgCommon, msg KfMsgRaw) (kfMessageDetail, 
 				ServicerUserId: msg.Event.ServicerUserId,
 			}, nil
 		case KfEventTypeRejectCustomerMsgSwitchChange:
-			return kfEventRejectCustomerMsgSwitchChange{
+			return KfEventRejectCustomerMsgSwitchChange{
 				EventType:      common.EventType,
 				OpenKfId:       common.OpenKfId,
 				ServicerUserId: common.ServicerUserId,

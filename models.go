@@ -1541,7 +1541,55 @@ type respSyncKfMsg struct {
 	respCommon
 	NextCursor string      `json:"next_cursor"`
 	HasMore    uint32      `json:"has_more"`
-	MsgList    []*KfMsgRaw `json:"msg_list"`
+	MsgList    []*kfMsgRaw `json:"msg_list"`
+}
+
+type kfMsgRaw struct {
+	MsgId               string                       `json:"msgid"`
+	OpenKfId            string                       `json:"open_kfid"`
+	ExternalUserID      string                       `json:"external_userid"`
+	SendTime            uint64                       `json:"send_time"`
+	Origin              uint32                       `json:"origin"`
+	ServicerUserId      string                       `json:"servicer_userid"`
+	MsgType             KfMessageType                `json:"msgtype"`
+	Text                kfTextMessage                `json:"text"`
+	Image               kfImageMessage               `json:"image"`
+	Voice               kfVoiceMessage               `json:"voice"`
+	Video               kfVideoMessage               `json:"video"`
+	File                kfFileMessage                `json:"file"`
+	Location            kfLocationMessage            `json:"location"`
+	Link                kfLinkMessage                `json:"link"`
+	BusinessCard        kfBusinessCardMessage        `json:"business_card"`
+	MiniProgram         kfMiniProgramMessage         `json:"miniprogram"`
+	MsgMenu             KfMsgMenu                    `json:"msgmenu"`
+	ChannelsShopProduct kfChannelsShopProductMessage `json:"channels_shop_product"`
+	ChannelsShopOrder   kfChannelsShopOrder          `json:"channels_shop_order"`
+	MergedMsg           kfMergedMessage              `json:"merged_msg"`
+	Channels            kfChannelsMessage            `json:"channels"`
+	Event               struct {
+		EventType      KfEventType `json:"event_type"`
+		OpenKfId       string      `json:"open_kfid"`
+		ExternalUserId string      `json:"external_userid"`
+		Scene          string      `json:"scene"`
+		SceneParam     string      `json:"scene_param"`
+		WelcomeCode    string      `json:"welcome_code"`
+		WechatChannels struct {
+			Nickname     string `json:"nickname"`
+			ShopNickname string `json:"shop_nickname"`
+			Scene        string `json:"scene"`
+		} `json:"wechat_channels"`
+		FailMsgId         string `json:"fail_msgid"`
+		FailType          uint32 `json:"fail_type"`
+		Status            uint32 `json:"status"`
+		StopType          uint32 `json:"stop_type"`
+		ServicerUserId    string `json:"servicer_userid"`
+		ChangeType        uint32 `json:"change_type"`
+		OldServicerUserId string `json:"old_servicer_userid"`
+		NewServicerUserId string `json:"new_servicer_userid"`
+		MsgCode           string `json:"msg_code"`
+		RecallMsgId       string `json:"recall_msgid"`
+		RejectSwitch      uint32 `json:"reject_switch"`
+	} `json:"event"`
 }
 
 // reqSendKfMsg 发送客服消息

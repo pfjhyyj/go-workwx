@@ -17,55 +17,7 @@ type KfMessage struct {
 	extras kfMessageDetail
 }
 
-type KfMsgRaw struct {
-	MsgId               string                       `json:"msgid"`
-	OpenKfId            string                       `json:"open_kfid"`
-	ExternalUserID      string                       `json:"external_userid"`
-	SendTime            uint64                       `json:"send_time"`
-	Origin              uint32                       `json:"origin"`
-	ServicerUserId      string                       `json:"servicer_userid"`
-	MsgType             KfMessageType                `json:"msgtype"`
-	Text                kfTextMessage                `json:"text"`
-	Image               kfImageMessage               `json:"image"`
-	Voice               kfVoiceMessage               `json:"voice"`
-	Video               kfVideoMessage               `json:"video"`
-	File                kfFileMessage                `json:"file"`
-	Location            kfLocationMessage            `json:"location"`
-	Link                kfLinkMessage                `json:"link"`
-	BusinessCard        kfBusinessCardMessage        `json:"business_card"`
-	MiniProgram         kfMiniProgramMessage         `json:"miniprogram"`
-	MsgMenu             KfMsgMenu                    `json:"msgmenu"`
-	ChannelsShopProduct kfChannelsShopProductMessage `json:"channels_shop_product"`
-	ChannelsShopOrder   kfChannelsShopOrder          `json:"channels_shop_order"`
-	MergedMsg           kfMergedMessage              `json:"merged_msg"`
-	Channels            kfChannelsMessage            `json:"channels"`
-	Event               struct {
-		EventType      KfEventType `json:"event_type"`
-		OpenKfId       string      `json:"open_kfid"`
-		ExternalUserId string      `json:"external_userid"`
-		Scene          string      `json:"scene"`
-		SceneParam     string      `json:"scene_param"`
-		WelcomeCode    string      `json:"welcome_code"`
-		WechatChannels struct {
-			Nickname     string `json:"nickname"`
-			ShopNickname string `json:"shop_nickname"`
-			Scene        string `json:"scene"`
-		} `json:"wechat_channels"`
-		FailMsgId         string `json:"fail_msgid"`
-		FailType          uint32 `json:"fail_type"`
-		Status            uint32 `json:"status"`
-		StopType          uint32 `json:"stop_type"`
-		ServicerUserId    string `json:"servicer_userid"`
-		ChangeType        uint32 `json:"change_type"`
-		OldServicerUserId string `json:"old_servicer_userid"`
-		NewServicerUserId string `json:"new_servicer_userid"`
-		MsgCode           string `json:"msg_code"`
-		RecallMsgId       string `json:"recall_msgid"`
-		RejectSwitch      uint32 `json:"reject_switch"`
-	} `json:"event"`
-}
-
-func parseKfMsg(msgRaw *KfMsgRaw) (*KfMessage, error) {
+func parseKfMsg(msgRaw *kfMsgRaw) (*KfMessage, error) {
 	common := kfMsgCommon{
 		MsgId:          msgRaw.MsgId,
 		OpenKfId:       msgRaw.OpenKfId,
@@ -85,6 +37,111 @@ func parseKfMsg(msgRaw *KfMsgRaw) (*KfMessage, error) {
 		extras:      extras,
 	}
 	return &msg, nil
+}
+
+func (m *KfMessage) Text() (*KfTextMessage, bool) {
+	msg, ok := m.extras.(KfTextMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) Image() (*KfImageMessage, bool) {
+	msg, ok := m.extras.(KfImageMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) Voice() (*KfVoiceMessage, bool) {
+	msg, ok := m.extras.(KfVoiceMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) Video() (*KfVideoMessage, bool) {
+	msg, ok := m.extras.(KfVideoMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) File() (*KfFileMessage, bool) {
+	msg, ok := m.extras.(KfFileMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) Location() (*KfLocationMessage, bool) {
+	msg, ok := m.extras.(KfLocationMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) Link() (*KfLinkMessage, bool) {
+	msg, ok := m.extras.(KfLinkMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) BusinessCard() (*KfBusinessCardMessage, bool) {
+	msg, ok := m.extras.(KfBusinessCardMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) MiniProgram() (*KfMiniProgramMessage, bool) {
+	msg, ok := m.extras.(KfMiniProgramMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) MsgMenu() (*KfMsgMenuMessage, bool) {
+	msg, ok := m.extras.(KfMsgMenuMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) ChannelsShopProduct() (*KfChannelsShopProductMessage, bool) {
+	msg, ok := m.extras.(KfChannelsShopProductMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) ChannelsShopOrder() (*KfChannelsShopOrderMessage, bool) {
+	msg, ok := m.extras.(KfChannelsShopOrderMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) MergedM() (*KfMergedMessage, bool) {
+	msg, ok := m.extras.(KfMergedMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) Channels() (*KfChannelsMessage, bool) {
+	msg, ok := m.extras.(KfChannelsMessage)
+	return &msg, ok
+}
+
+func (m *KfMessage) EventEnterSession() (*KfEventEnterSession, bool) {
+	msg, ok := m.extras.(KfEventEnterSession)
+	return &msg, ok
+}
+
+func (m *KfMessage) EventMsgSendFail() (*KfEventMsgSendFail, bool) {
+	msg, ok := m.extras.(KfEventMsgSendFail)
+	return &msg, ok
+}
+
+func (m *KfMessage) EventServicerStatusChange() (*KfEventServicerStatusChange, bool) {
+	msg, ok := m.extras.(KfEventServicerStatusChange)
+	return &msg, ok
+}
+
+func (m *KfMessage) EventSessionStatusChange() (*KfEventSessionStatusChange, bool) {
+	msg, ok := m.extras.(KfEventSessionStatusChange)
+	return &msg, ok
+}
+
+func (m *KfMessage) EventUserRecallMsg() (*KfEventUserRecallMsg, bool) {
+	msg, ok := m.extras.(KfEventUserRecallMsg)
+	return &msg, ok
+}
+
+func (m *KfMessage) EventServicerRecallMsg() (*KfEventServicerRecallMsg, bool) {
+	msg, ok := m.extras.(KfEventServicerRecallMsg)
+	return &msg, ok
+}
+
+func (m *KfMessage) EventRejectCustomerMsgSwitchChange() (*KfEventRejectCustomerMsgSwitchChange, bool) {
+	msg, ok := m.extras.(KfEventRejectCustomerMsgSwitchChange)
+	return &msg, ok
 }
 
 // KfMessageType 消息类型
