@@ -1552,20 +1552,20 @@ type kfMsgRaw struct {
 	Origin              uint32                       `json:"origin"`
 	ServicerUserId      string                       `json:"servicer_userid"`
 	MsgType             KfMessageType                `json:"msgtype"`
-	Text                kfTextMessage                `json:"text"`
-	Image               kfImageMessage               `json:"image"`
-	Voice               kfVoiceMessage               `json:"voice"`
-	Video               kfVideoMessage               `json:"video"`
-	File                kfFileMessage                `json:"file"`
-	Location            kfLocationMessage            `json:"location"`
-	Link                kfLinkMessage                `json:"link"`
-	BusinessCard        kfBusinessCardMessage        `json:"business_card"`
-	MiniProgram         kfMiniProgramMessage         `json:"miniprogram"`
+	Text                KfTextMessage                `json:"text"`
+	Image               KfImageMessage               `json:"image"`
+	Voice               KfVoiceMessage               `json:"voice"`
+	Video               KfVideoMessage               `json:"video"`
+	File                KfFileMessage                `json:"file"`
+	Location            KfLocationMessage            `json:"location"`
+	Link                KfLinkMessage                `json:"link"`
+	BusinessCard        KfBusinessCardMessage        `json:"business_card"`
+	MiniProgram         KfMiniProgramMessage         `json:"miniprogram"`
 	MsgMenu             KfMsgMenu                    `json:"msgmenu"`
-	ChannelsShopProduct kfChannelsShopProductMessage `json:"channels_shop_product"`
-	ChannelsShopOrder   kfChannelsShopOrder          `json:"channels_shop_order"`
-	MergedMsg           kfMergedMessage              `json:"merged_msg"`
-	Channels            kfChannelsMessage            `json:"channels"`
+	ChannelsShopProduct KfChannelsShopProductMessage `json:"channels_shop_product"`
+	ChannelsShopOrder   KfChannelsShopOrderMessage   `json:"channels_shop_order"`
+	MergedMsg           KfMergedMessage              `json:"merged_msg"`
+	Channels            KfChannelsMessage            `json:"channels"`
 	Event               struct {
 		EventType      KfEventType `json:"event_type"`
 		OpenKfId       string      `json:"open_kfid"`
