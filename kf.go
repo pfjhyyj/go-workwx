@@ -13,8 +13,8 @@ func (c *WorkwxApp) GetKfAccountList(offset uint32, limit uint32) ([]KfAccount, 
 	return resp.AccountList, nil
 }
 
-// GetServicerList 获取接待人员列表
-func (c *WorkwxApp) GetServicerList(openKfId string) ([]KfServicer, error) {
+// GetKfServicerList 获取接待人员列表
+func (c *WorkwxApp) GetKfServicerList(openKfId string) ([]KfServicer, error) {
 	resp, err := c.execListServicer(reqListServicer{
 		OpenKfId: openKfId,
 	})
