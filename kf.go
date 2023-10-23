@@ -140,3 +140,17 @@ func (c *WorkwxApp) TransKfServiceState(
 
 	return resp.MsgCode, nil
 }
+
+// GetKfCustomers 获取客户基础信息
+func (c *WorkwxApp) GetKfCustomers(externalUserIDs []string, needEnterSessionContext uint8) ([]KfCustomer, error) {
+	resp, err := c.execBatchGetCustomer(reqBatchGetCustomer{
+		ExternalUserIDList:      externalUserIDs,
+		NeedEnterSessionContext: needEnterSessionContext,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.CustomerList, nil
+}
