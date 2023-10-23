@@ -229,7 +229,7 @@ func (c *WorkwxApp) SyncKfMsg(
 	limit uint32,
 	voiceFormat uint32,
 	openKfId string,
-) ([]*KfMessage, error) {
+) ([]*KfMessage, string, uint32, error) {
 	resp, err := c.execSyncKfMsg(reqSyncKfMsg{
 		Cursor:      cursor,
 		Token:       token,
@@ -239,18 +239,18 @@ func (c *WorkwxApp) SyncKfMsg(
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, "", 0, err
 	}
 
 	msgs := make([]*KfMessage, len(resp.MsgList))
 	for i, msg := range resp.MsgList {
 		msg, err := parseKfMsg(msg)
 		if err != nil {
-			return nil, err
+			return nil, "", 0, err
 		}
 		msgs[i] = msg
 	}
-	return msgs, nil
+	return msgs, resp.NextCursor, resp.HasMore, nil
 }
 
 // SendKfTextMessage 发送微信客服文本消息
