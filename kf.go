@@ -104,7 +104,7 @@ func (c *WorkwxApp) GetKfServicerList(openKfId string) ([]KfServicer, error) {
 	return resp.ServicerList, nil
 }
 
-// GetKfServiceState 获取微信客服状态
+// GetKfServiceState 获取会话状态
 func (c *WorkwxApp) GetKfServiceState(
 	openKfId string,
 	externalUserID string,
@@ -141,6 +141,56 @@ func (c *WorkwxApp) TransKfServiceState(
 	return resp.MsgCode, nil
 }
 
+// GetKfUpgradeServiceConfig 获取配置的专员与客户群
+func (c *WorkwxApp) GetKfUpgradeServiceConfig() (*KfMemberRange, *KfGroupChatRange, error) {
+	resp, err := c.execGetUpgradeServiceConfig(reqGetUpgradeServiceConfig{})
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return &resp.MemberRange, &resp.GroupChatRange, nil
+}
+
+// SetKfUpgradeServiceMember 为客户升级为专员
+func (c *WorkwxApp) SetKfUpgradeServiceMember(openKfId string, externalUserID string, userID string, wording string) error {
+	_, err := c.execUpgradeService(reqUpgradeService{
+		OpenKfId:       openKfId,
+		ExternalUserID: externalUserID,
+		Type:           1,
+		Member: &KfUpgradeMember{
+			UserID:  userID,
+			Wording: wording,
+		},
+	})
+
+	return err
+}
+
+// SetKfUpgradeServiceGroupChat 为客户升级为客户群
+func (c *WorkwxApp) SetKfUpgradeServiceGroupChat(openKfId string, externalUserID string, chatID string, wording string) error {
+	_, err := c.execUpgradeService(reqUpgradeService{
+		OpenKfId:       openKfId,
+		ExternalUserID: externalUserID,
+		Type:           2,
+		GroupChat: &KfUpgradeGroupChat{
+			ChatID:  chatID,
+			Wording: wording,
+		},
+	})
+
+	return err
+}
+
+// CancelKfUpgradeService 为客户取消推荐
+func (c *WorkwxApp) CancelKfUpgradeService(openKfId string, externalUserId string) error {
+	_, err := c.execUpgradeService(reqUpgradeService{
+		OpenKfId:       openKfId,
+		ExternalUserID: externalUserId,
+	})
+
+	return err
+}
+
 // GetKfCustomers 获取客户基础信息
 func (c *WorkwxApp) GetKfCustomers(externalUserIDs []string, needEnterSessionContext uint8) ([]KfCustomer, error) {
 	resp, err := c.execBatchGetCustomer(reqBatchGetCustomer{
@@ -153,4 +203,146 @@ func (c *WorkwxApp) GetKfCustomers(externalUserIDs []string, needEnterSessionCon
 	}
 
 	return resp.CustomerList, nil
+}
+
+// GetKfCorpStatistic 获取「客户数据统计」企业汇总数据
+func (c *WorkwxApp) GetKfCorpStatistic(startTime uint32, endTime uint32) ([]*KfCorpStatisticDetail, error) {
+	resp, err := c.execGetCorpStatistic(reqGetCorpStatistic{
+		StartTime: startTime,
+		EndTime:   endTime,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.StatisticList, nil
+}
+
+// GetKfServicerStatistic 获取「客户数据统计」接待人员明细数据
+func (c *WorkwxApp) GetKfServicerStatistic(openKfId string, startTime uint32, endTime uint32) ([]*KfServicerStatisticDetail, error) {
+	resp, err := c.execGetServicerStatistic(reqGetServicerStatistic{
+		StartTime: startTime,
+		EndTime:   endTime,
+		OpenKfId:  openKfId,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.StatisticList, nil
+}
+
+// AddKfKnowledgeGroup 添加知识库分组
+func (c *WorkwxApp) AddKfKnowledgeGroup(name string) (string, error) {
+	resp, err := c.execAddKnowledgeGroup(reqAddKnowledgeGroup{
+		Name: name,
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	return resp.GroupId, nil
+}
+
+// DelKfKnowledgeGroup 删除知识库分组
+func (c *WorkwxApp) DelKfKnowledgeGroup(groupId string) error {
+	_, err := c.execDelKnowledgeGroup(reqDelKnowledgeGroup{
+		GroupId: groupId,
+	})
+
+	return err
+}
+
+// UpdateKfKnowledgeGroup 更新知识库分组
+func (c *WorkwxApp) UpdateKfKnowledgeGroup(groupId string, name string) error {
+	_, err := c.execModKnowledgeGroup(reqModKnowledgeGroup{
+		GroupId: groupId,
+		Name:    name,
+	})
+
+	return err
+}
+
+// GetKfKnowledgeGroupList 获取知识库分组
+func (c *WorkwxApp) GetKfKnowledgeGroupList(cursor string, limit uint32, groupId string) ([]*KfKnowledgeGroup, error) {
+	resp, err := c.execGetKnowledgeGroupList(reqGetKnowledgeGroupList{
+		Cursor:  cursor,
+		Limit:   limit,
+		GroupId: groupId,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.GroupList, nil
+}
+
+// AddKfKnowledgeIntent 添加知识库问答
+func (c *WorkwxApp) AddKfKnowledgeIntent(
+	groupId string,
+	question *KfQuestion,
+	similarQuestions *KfSimilarQuestions,
+	answers []*KfQuestionAnswer,
+) (string, error) {
+	resp, err := c.execAddKnowledgeIntent(reqAddKnowledgeIntent{
+		GroupId:          groupId,
+		Question:         question,
+		SimilarQuestions: similarQuestions,
+		Answers:          answers,
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	return resp.IntentId, nil
+}
+
+// DelKfKnowledgeIntent 删除知识库问答
+func (c *WorkwxApp) DelKfKnowledgeIntent(intentId string) error {
+	_, err := c.execDelKnowledgeIntent(reqDelKnowledgeIntent{
+		IntentId: intentId,
+	})
+
+	return err
+}
+
+// UpdateKfKnowledgeIntent 更新知识库问答
+func (c *WorkwxApp) UpdateKfKnowledgeIntent(
+	intentId string,
+	question *KfQuestion,
+	similarQuestions *KfSimilarQuestions,
+	answers []*KfQuestionAnswer,
+) error {
+	_, err := c.execModKnowledgeIntent(reqModKnowledgeIntent{
+		IntentId:         intentId,
+		Question:         question,
+		SimilarQuestions: similarQuestions,
+		Answers:          answers,
+	})
+
+	return err
+}
+
+// GetKfKnowledgeIntentList 获取知识库问答
+func (c *WorkwxApp) GetKfKnowledgeIntentList(
+	cursor string,
+	limit uint32,
+	groupId string,
+	intentId string,
+) ([]*KfKnowledgeIntent, error) {
+	resp, err := c.execGetKnowledgeIntentList(reqGetKnowledgeIntentList{
+		Cursor:   cursor,
+		Limit:    limit,
+		GroupId:  groupId,
+		IntentId: intentId,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.IntentList, nil
 }

@@ -1602,11 +1602,11 @@ type reqSendKfMsg struct {
 }
 
 type KfMsgMenu struct {
-	Type        string               `json:"type"`
-	Click       KfMsgMenuClick       `json:"click"`
-	View        KfMsgMenuView        `json:"view"`
-	MiniProgram KfMsgMenuMiniProgram `json:"miniProgram"`
-	Text        KfMsgMenuText        `json:"text"`
+	Type        string                `json:"type"`
+	Click       *KfMsgMenuClick       `json:"click"`
+	View        *KfMsgMenuView        `json:"view"`
+	MiniProgram *KfMsgMenuMiniProgram `json:"miniProgram"`
+	Text        *KfMsgMenuText        `json:"text"`
 }
 
 type KfMsgMenuClick struct {
@@ -1681,24 +1681,35 @@ func (x reqGetUpgradeServiceConfig) intoURLValues() url.Values {
 
 type respGetUpgradeServiceConfig struct {
 	respCommon
+	MemberRange    KfMemberRange    `json:"member_range"`
+	GroupChatRange KfGroupChatRange `json:"groupchat_range"`
+}
+
+type KfMemberRange struct {
+	UserIdList       []string `json:"userid_list"`
+	DepartmentIdList []uint   `json:"department_id_list"`
+}
+
+type KfGroupChatRange struct {
+	ChatIdList []string `json:"chat_id_list"`
 }
 
 // reqUpgradeService 为客户升级为专员或客户群服务
 type reqUpgradeService struct {
-	OpenKfId       string             `json:"open_kfid"`
-	ExternalUserID string             `json:"external_userid"`
-	Type           uint32             `json:"type"`
-	Member         KfUpgradeMember    `json:"member"`
-	GroupChat      KfUpgradeGroupChat `json:"groupchat"`
+	OpenKfId       string              `json:"open_kfid"`
+	ExternalUserID string              `json:"external_userid"`
+	Type           uint32              `json:"type"`
+	Member         *KfUpgradeMember    `json:"member"`
+	GroupChat      *KfUpgradeGroupChat `json:"groupchat"`
 }
 
 type KfUpgradeMember struct {
-	UserId  string `json:"userid"`
+	UserID  string `json:"userid"`
 	Wording string `json:"wording"`
 }
 
 type KfUpgradeGroupChat struct {
-	ChatId  string `json:"chat_id"`
+	ChatID  string `json:"chat_id"`
 	Wording string `json:"wording"`
 }
 
@@ -1782,11 +1793,8 @@ func (x reqGetCorpStatistic) intoBody() ([]byte, error) {
 
 type respGetCorpStatistic struct {
 	respCommon
-	StatisticList []KfCorpStatistic `json:"statistic_list"`
-}
-
-type KfCorpStatistic struct {
-	StartTime uint32 `json:"start_time"`
+	StartTime     uint32                   `json:"start_time"`
+	StatisticList []*KfCorpStatisticDetail `json:"statistic_list"`
 }
 
 type KfCorpStatisticDetail struct {
@@ -1815,11 +1823,8 @@ func (x reqGetServicerStatistic) intoBody() ([]byte, error) {
 
 type respGetServicerStatistic struct {
 	respCommon
-}
-
-type KfServicerStatistic struct {
-	StartTime uint32                    `json:"start_time"`
-	Statistic KfServicerStatisticDetail `json:"statistic"`
+	StartTime     uint32                       `json:"start_time"`
+	StatisticList []*KfServicerStatisticDetail `json:"statistic_list"`
 }
 
 type KfServicerStatisticDetail struct {
@@ -1903,9 +1908,9 @@ func (x reqGetKnowledgeGroupList) intoBody() ([]byte, error) {
 
 type respGetKnowledgeGroupList struct {
 	respCommon
-	NextCursor string             `json:"next_cursor"`
-	HasMore    uint32             `json:"has_more"`
-	GroupList  []KfKnowledgeGroup `json:"group_list"`
+	NextCursor string              `json:"next_cursor"`
+	HasMore    uint32              `json:"has_more"`
+	GroupList  []*KfKnowledgeGroup `json:"group_list"`
 }
 
 type KfKnowledgeGroup struct {
@@ -1916,10 +1921,10 @@ type KfKnowledgeGroup struct {
 
 // reqAddKnowledgeIntent 添加知识库问答
 type reqAddKnowledgeIntent struct {
-	GroupId          string             `json:"group_id"`
-	Question         KfQuestion         `json:"question"`
-	SimilarQuestions KfSimilarQuestions `json:"similar_questions"`
-	Answers          []KfQuestionAnswer `json:"answers"`
+	GroupId          string              `json:"group_id"`
+	Question         *KfQuestion         `json:"question"`
+	SimilarQuestions *KfSimilarQuestions `json:"similar_questions"`
+	Answers          []*KfQuestionAnswer `json:"answers"`
 }
 
 type KfQuestion struct {
@@ -1998,10 +2003,10 @@ type respDelKnowledgeIntent struct {
 
 // reqModKnowledgeIntent 修改知识库问答
 type reqModKnowledgeIntent struct {
-	IntentId         string             `json:"intent_id"`
-	Question         KfQuestion         `json:"question"`
-	SimilarQuestions KfSimilarQuestions `json:"similar_questions"`
-	Answers          []KfQuestionAnswer `json:"answers"`
+	IntentId         string              `json:"intent_id"`
+	Question         *KfQuestion         `json:"question"`
+	SimilarQuestions *KfSimilarQuestions `json:"similar_questions"`
+	Answers          []*KfQuestionAnswer `json:"answers"`
 }
 
 var _ bodyer = reqModKnowledgeIntent{}
@@ -2030,12 +2035,12 @@ func (x reqGetKnowledgeIntentList) intoBody() ([]byte, error) {
 
 type respGetKnowledgeIntentList struct {
 	respCommon
-	NextCursor string                    `json:"next_cursor"`
-	HasMore    uint32                    `json:"has_more"`
-	IntentList []KfKnowledgeIntentDetail `json:"intent_list"`
+	NextCursor string               `json:"next_cursor"`
+	HasMore    uint32               `json:"has_more"`
+	IntentList []*KfKnowledgeIntent `json:"intent_list"`
 }
 
-type KfKnowledgeIntentDetail struct {
+type KfKnowledgeIntent struct {
 	IntentId string     `json:"intent_id"`
 	GroupId  string     `json:"group_id"`
 	Question KfQuestion `json:"question"`
