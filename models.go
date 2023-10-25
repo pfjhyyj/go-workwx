@@ -1634,7 +1634,10 @@ var _ bodyer = reqSendKfMsg{}
 
 func (x reqSendKfMsg) intoBody() ([]byte, error) {
 	obj := map[string]interface{}{
-		"msgtype": x.MsgType,
+		"touser":    x.ToUser,
+		"open_kfid": x.OpenKfId,
+		"msgid":     x.MsgId,
+		"msgtype":   x.MsgType,
 	}
 
 	// msgtype polymorphism
