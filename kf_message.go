@@ -1,5 +1,11 @@
 package workwx
 
+type OriginType uint32
+
+const OriginTypeCustomer OriginType = 3
+const OriginTypeSystem OriginType = 4
+const OriginTypeServicer OriginType = 5
+
 type kfMsgCommon struct {
 	MsgId          string        `json:"msgid"`
 	OpenKfId       string        `json:"open_kfid"`
