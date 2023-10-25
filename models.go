@@ -1602,24 +1602,32 @@ type reqSendKfMsg struct {
 }
 
 type KfMsgMenu struct {
-	Type  string `json:"type"`
-	Click struct {
-		Id      string `json:"id"`
-		Content string `json:"content"`
-	} `json:"click"`
-	View struct {
-		Url     string `json:"url"`
-		Content string `json:"content"`
-	} `json:"view"`
-	MiniProgram struct {
-		Appid    string `json:"appid"`
-		Pagepath string `json:"pagepath"`
-		Content  string `json:"content"`
-	}
-	Text struct {
-		Content   string `json:"content"`
-		NoNewLine bool   `json:"no_new_line"`
-	}
+	Type        string               `json:"type"`
+	Click       KfMsgMenuClick       `json:"click"`
+	View        KfMsgMenuView        `json:"view"`
+	MiniProgram KfMsgMenuMiniProgram `json:"miniProgram"`
+	Text        KfMsgMenuText        `json:"text"`
+}
+
+type KfMsgMenuClick struct {
+	Id      string `json:"id"`
+	Content string `json:"content"`
+}
+
+type KfMsgMenuView struct {
+	Url     string `json:"url"`
+	Content string `json:"content"`
+}
+
+type KfMsgMenuMiniProgram struct {
+	Appid    string `json:"appid"`
+	Pagepath string `json:"pagepath"`
+	Content  string `json:"content"`
+}
+
+type KfMsgMenuText struct {
+	Content   string `json:"content"`
+	NoNewLine bool   `json:"no_new_line"`
 }
 
 var _ bodyer = reqSendKfMsg{}
