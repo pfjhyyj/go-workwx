@@ -11,7 +11,7 @@ type kfMsgCommon struct {
 	OpenKfId       string        `json:"open_kfid"`
 	ExternalUserID string        `json:"external_userid"`
 	SendTime       uint64        `json:"send_time"`
-	Origin         uint32        `json:"origin"`
+	Origin         KfOriginType  `json:"origin"`
 	ServicerUserId string        `json:"servicer_userid"`
 	MsgType        KfMessageType `json:"msgtype"`
 	EventType      KfEventType   `json:"event_type"`
