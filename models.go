@@ -1594,7 +1594,7 @@ type kfMsgRaw struct {
 
 // reqSendKfMsg 发送客服消息
 type reqSendKfMsg struct {
-	ToUser   string `json:"toUser"`
+	ToUser   string `json:"touser"`
 	OpenKfId string `json:"open_kfid"`
 	MsgId    string `json:"msgid"`
 	MsgType  string `json:"msgtype"`
