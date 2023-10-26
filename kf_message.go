@@ -410,7 +410,7 @@ func (c *WorkwxApp) SendKfMenuMessage(
 		toUser,
 		openKfId,
 		msgId,
-		"menu",
+		"msgmenu",
 		map[string]interface{}{
 			"head_content": headContent,
 			"list":         list,
@@ -470,17 +470,63 @@ func (c *WorkwxApp) sendKfMessage(
 	return nil
 }
 
-// SendKfMsgOnEvent 发送欢迎语等事件响应消息
-func (c *WorkwxApp) SendKfMsgOnEvent(
+// SendKfTextMessageOnEvent 发送文本欢迎语
+func (c *WorkwxApp) SendKfTextMessageOnEvent(
 	code string,
 	msgId string,
-	msgType string,
+	content string,
+) (string, error) {
+	return c.sendKfMessageOnEvent(
+		code,
+		msgId,
+		"text",
+		map[string]interface{}{
+			"content": content,
+		},
+	)
+}
+
+// SendKfMenuMessageOnEvent 发送欢迎语等事件响应消息
+func (c *WorkwxApp) SendKfMenuMessageOnEvent(
+	code string,
+	msgId string,
+	headContent string,
+	list []KfMsgMenu,
+	tailContent string,
 ) (string, error) {
 	resp, err := c.execSendKfMsgOnEvent(reqSendKfMsgOnEvent{
 		Code:    code,
 		MsgId:   msgId,
-		MsgType: msgType,
+		MsgType: "msgmenu",
+		Content: map[string]interface{}{
+			"head_content": headContent,
+			"list":         list,
+			"tail_content": tailContent,
+		},
 	})
+
+	if err != nil {
+		return "", err
+	}
+
+	return resp.MsgId, nil
+}
+
+// sendKfMessageOnEvent 发送欢迎语等事件响应消息
+func (c *WorkwxApp) sendKfMessageOnEvent(
+	code string,
+	msgId string,
+	msgType string,
+	content map[string]interface{},
+) (string, error) {
+	req := reqSendKfMsgOnEvent{
+		Code:    code,
+		MsgId:   msgId,
+		MsgType: msgType,
+		Content: content,
+	}
+
+	resp, err := c.execSendKfMsgOnEvent(req)
 
 	if err != nil {
 		return "", err
