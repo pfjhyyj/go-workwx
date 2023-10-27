@@ -138,7 +138,7 @@ var _ kfMessageDetail = (*KfChannelsMessage)(nil)
 
 type KfEventEnterSession struct {
 	EventType      KfEventType `json:"event_type"`
-	OpenKfId       string      `json:"open_Kfid"`
+	OpenKfId       string      `json:"open_kfid"`
 	ExternalUserId string      `json:"external_userid"`
 	Scene          string      `json:"scene"`
 	SceneParam     string      `json:"scene_param"`
@@ -152,7 +152,7 @@ type KfEventEnterSession struct {
 
 type KfEventMsgSendFail struct {
 	EventType      KfEventType `json:"event_type"`
-	OpenKfId       string      `json:"open_Kfid"`
+	OpenKfId       string      `json:"open_kfid"`
 	ExternalUserId string      `json:"external_userid"`
 	FailMsgId      string      `json:"fail_msgid"`
 	FailType       uint32      `json:"fail_type"`
@@ -160,7 +160,7 @@ type KfEventMsgSendFail struct {
 
 type KfEventServicerStatusChange struct {
 	EventType      KfEventType `json:"event_type"`
-	OpenKfId       string      `json:"open_Kfid"`
+	OpenKfId       string      `json:"open_kfid"`
 	ServicerUserId string      `json:"servicer_userid"`
 	Status         uint32      `json:"status"`
 	StopType       uint32      `json:"stop_type"`
@@ -168,7 +168,7 @@ type KfEventServicerStatusChange struct {
 
 type KfEventSessionStatusChange struct {
 	EventType         KfEventType `json:"event_type"`
-	OpenKfId          string      `json:"open_Kfid"`
+	OpenKfId          string      `json:"open_kfid"`
 	ExternalUserId    string      `json:"external_userid"`
 	ChangeType        uint32      `json:"change_type"`
 	OldServicerUserId string      `json:"old_servicer_userid"`
@@ -178,14 +178,14 @@ type KfEventSessionStatusChange struct {
 
 type KfEventUserRecallMsg struct {
 	EventType      KfEventType `json:"event_type"`
-	OpenKfId       string      `json:"open_Kfid"`
+	OpenKfId       string      `json:"open_kfid"`
 	ExternalUserId string      `json:"external_userid"`
 	RecallMsgId    string      `json:"recall_msgid"`
 }
 
 type KfEventServicerRecallMsg struct {
 	EventType      KfEventType `json:"event_type"`
-	OpenKfId       string      `json:"open_Kfid"`
+	OpenKfId       string      `json:"open_kfid"`
 	ExternalUserId string      `json:"external_userid"`
 	RecallMsgId    string      `json:"recall_msgid"`
 	ServicerUserId string      `json:"servicer_userid"`
@@ -193,7 +193,7 @@ type KfEventServicerRecallMsg struct {
 
 type KfEventRejectCustomerMsgSwitchChange struct {
 	EventType      KfEventType `json:"event_type"`
-	OpenKfId       string      `json:"open_Kfid"`
+	OpenKfId       string      `json:"open_kfid"`
 	ServicerUserId string      `json:"servicer_userid"`
 	ExternalUserId string      `json:"external_userid"`
 	RejectSwitch   uint32      `json:"reject_switch"`
