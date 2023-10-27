@@ -237,9 +237,9 @@ func extractKfMessageExtras(common kfMsgCommon, msg kfMsgRaw) (kfMessageDetail, 
 		switch common.EventType {
 		case KfEventTypeEnterSession:
 			return KfEventEnterSession{
-				EventType:      common.EventType,
-				OpenKfId:       common.OpenKfId,
-				ExternalUserId: common.ExternalUserID,
+				EventType:      msg.Event.EventType,
+				OpenKfId:       msg.Event.OpenKfId,
+				ExternalUserId: msg.Event.ExternalUserId,
 				Scene:          msg.Event.Scene,
 				SceneParam:     msg.Event.SceneParam,
 				WelcomeCode:    msg.Event.WelcomeCode,
@@ -247,25 +247,25 @@ func extractKfMessageExtras(common kfMsgCommon, msg kfMsgRaw) (kfMessageDetail, 
 			}, nil
 		case KfEventTypeMsgSendFail:
 			return KfEventMsgSendFail{
-				EventType:      common.EventType,
-				OpenKfId:       common.OpenKfId,
-				ExternalUserId: common.ExternalUserID,
+				EventType:      msg.Event.EventType,
+				OpenKfId:       msg.Event.OpenKfId,
+				ExternalUserId: msg.Event.ExternalUserId,
 				FailMsgId:      msg.Event.FailMsgId,
 				FailType:       msg.Event.FailType,
 			}, nil
 		case KfEventTypeServicerStatusChange:
 			return KfEventServicerStatusChange{
-				EventType:      common.EventType,
-				OpenKfId:       common.OpenKfId,
-				ServicerUserId: common.ServicerUserId,
+				EventType:      msg.Event.EventType,
+				OpenKfId:       msg.Event.OpenKfId,
+				ServicerUserId: msg.Event.ServicerUserId,
 				Status:         msg.Event.Status,
 				StopType:       msg.Event.StopType,
 			}, nil
 		case KfEventTypeSessionStatusChange:
 			return KfEventSessionStatusChange{
-				EventType:         common.EventType,
-				OpenKfId:          common.OpenKfId,
-				ExternalUserId:    common.ExternalUserID,
+				EventType:         msg.Event.EventType,
+				OpenKfId:          msg.Event.OpenKfId,
+				ExternalUserId:    msg.Event.ExternalUserId,
 				ChangeType:        msg.Event.ChangeType,
 				OldServicerUserId: msg.Event.OldServicerUserId,
 				NewServicerUserId: msg.Event.NewServicerUserId,
@@ -273,25 +273,25 @@ func extractKfMessageExtras(common kfMsgCommon, msg kfMsgRaw) (kfMessageDetail, 
 			}, nil
 		case KfEventTypeUserRecallMsg:
 			return KfEventUserRecallMsg{
-				EventType:      common.EventType,
-				OpenKfId:       common.OpenKfId,
-				ExternalUserId: common.ExternalUserID,
+				EventType:      msg.Event.EventType,
+				OpenKfId:       msg.Event.OpenKfId,
+				ExternalUserId: msg.Event.ExternalUserId,
 				RecallMsgId:    msg.Event.RecallMsgId,
 			}, nil
 		case KfEventTypeServicerRecallMsg:
 			return KfEventServicerRecallMsg{
-				EventType:      common.EventType,
-				OpenKfId:       common.OpenKfId,
-				ExternalUserId: common.ExternalUserID,
+				EventType:      msg.Event.EventType,
+				OpenKfId:       msg.Event.OpenKfId,
+				ExternalUserId: msg.Event.ExternalUserId,
 				RecallMsgId:    msg.Event.RecallMsgId,
 				ServicerUserId: msg.Event.ServicerUserId,
 			}, nil
 		case KfEventTypeRejectCustomerMsgSwitchChange:
 			return KfEventRejectCustomerMsgSwitchChange{
-				EventType:      common.EventType,
-				OpenKfId:       common.OpenKfId,
-				ServicerUserId: common.ServicerUserId,
-				ExternalUserId: common.ExternalUserID,
+				EventType:      msg.Event.EventType,
+				OpenKfId:       msg.Event.OpenKfId,
+				ExternalUserId: msg.Event.ExternalUserId,
+				ServicerUserId: msg.Event.ServicerUserId,
 				RejectSwitch:   msg.Event.RejectSwitch,
 			}, nil
 		default:
