@@ -34,6 +34,11 @@ func parseKfMsg(msgRaw *kfMsgRaw) (*KfMessage, error) {
 		MsgType:        msgRaw.MsgType,
 		EventType:      msgRaw.Event.EventType,
 	}
+	// 当事件为event时，如含有external_userid和open_kfid时，存在于event中
+	if msgRaw.MsgType == KfMessageTypeEvent {
+		common.OpenKfId = msgRaw.Event.OpenKfId
+		common.ExternalUserID = msgRaw.Event.ExternalUserId
+	}
 	extras, err := extractKfMessageExtras(common, *msgRaw)
 	if err != nil {
 		return nil, err
